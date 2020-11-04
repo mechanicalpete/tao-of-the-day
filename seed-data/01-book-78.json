@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter78" },
+  "Title": { "S": "Seventy Eight" },
+  "Content": {
+    "S": "Under heaven nothing is more soft and yielding than water.\nYet for attacking the solid and strong, nothing is better;\nIt has no equal.\nThe weak can overcome the strong;\nThe supple can overcome the stiff.\nUnder heaven everyone knows this,\nYet no one puts it into practice.\nTherefore the sage says:\nHe who takes upon himself the humiliation of the people is fit to rule them.\nHe who takes upon himself the country's disasters deserves to be king of the universe.\nThe truth often sounds paradoxical."
+  },
+  "Type": { "S": "QUOTE" }
+}

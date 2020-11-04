@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter03" },
+  "Title": { "S": "Three" },
+  "Content": {
+    "S": "Not exalting the gifted prevents quarreling.\nNot collecting treasures prevents stealing.\nNot seeing desirable things prevents confusion of the heart.\n\nThe wise therefore rule by emptying hearts and stuffing bellies, by weakening ambitions and strengthening bones.\nIf men lack knowledge and desire, then clever people will not try to interfere.\nIf nothing is done, then all will be well."
+  },
+  "Type": { "S": "QUOTE" }
+}

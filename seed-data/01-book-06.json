@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter06" },
+  "Title": { "S": "Six" },
+  "Content": {
+    "S": "The valley spirit never dies;\nIt is the woman, primal mother.\nHer gateway is the root of heaven and Earth.\nIt is like a veil barely seen.\nUse it; it will never fail."
+  },
+  "Type": { "S": "QUOTE" }
+}

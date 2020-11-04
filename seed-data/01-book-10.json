@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter10" },
+  "Title": { "S": "Ten" },
+  "Content": {
+    "S": "Carrying body and soul and embracing the one,\nCan you avoid separation?\nAttending fully and becoming supple,\nCan you be as a newborn babe?\nWashing and cleansing the primal vision,\nCan you be without stain?\nLoving all men and ruling the country,\nCan you be without cleverness?\nOpening and closing the gates of heaven,\nCan you play the role of woman?\nUnderstanding and being open to all things,\nAre you able to do nothing?\nGiving birth and nourishing,\nBearing yet not possessing,\nWorking yet not taking credit,\nLeading yet not dominating,\nThis is the Primal Virtue."
+  },
+  "Type": { "S": "QUOTE" }
+}

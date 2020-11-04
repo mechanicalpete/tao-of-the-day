@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter09" },
+  "Title": { "S": "Nine" },
+  "Content": {
+    "S": "Better to stop short than fill to the brim.\nOversharpen the blade, and the edge will soon blunt.\nAmass a store of gold and jade, and no one can protect it.\nClaim wealth and titles, and disaster will follow.\nRetire when the work is done.\nThis is the way of heaven."
+  },
+  "Type": { "S": "QUOTE" }
+}

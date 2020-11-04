@@ -1,0 +1,143 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  ParamPipelineName:
+    Type: String
+    MinLength: 1
+    MaxLength: 64
+    AllowedPattern: '[A-Za-z0-9\-_ ]+$'
+  ParamSlackChannelId:
+    Type: String
+  ParamSlackWorkspaceId:
+    Type: String
+
+Resources:
+  # The full list of supported "EventTypeIds" can be retrieved by executing this command:
+  #     aws codestar-notifications list-event-types --output table
+  #
+  # +------------------------------------------------------+----------------------------------+---------------+---------------+
+  # |                      EventTypeId                     |          EventTypeName           | ResourceType  |  ServiceName  |
+  # +------------------------------------------------------+----------------------------------+---------------+---------------+
+  # |  codebuild-project-build-phase-failure               |  Build phase: Failure            |  Project      |  CodeBuild    |
+  # |  codebuild-project-build-phase-success               |  Build phase: Success            |  Project      |  CodeBuild    |
+  # |  codebuild-project-build-state-failed                |  Build state: Failed             |  Project      |  CodeBuild    |
+  # |  codebuild-project-build-state-in-progress           |  Build state: In-progress        |  Project      |  CodeBuild    |
+  # |  codebuild-project-build-state-stopped               |  Build state: Stopped            |  Project      |  CodeBuild    |
+  # |  codebuild-project-build-state-succeeded             |  Build state: Succeeded          |  Project      |  CodeBuild    |
+  # |  codecommit-repository-approvals-rule-override       |  Approvals: Rule override        |  Repository   |  CodeCommit   |
+  # |  codecommit-repository-approvals-status-changed      |  Approvals: Status changed       |  Repository   |  CodeCommit   |
+  # |  codecommit-repository-branches-and-tags-created     |  Branches and tags: Created      |  Repository   |  CodeCommit   |
+  # |  codecommit-repository-branches-and-tags-deleted     |  Branches and tags: Deleted      |  Repository   |  CodeCommit   |
+  # |  codecommit-repository-branches-and-tags-updated     |  Branches and tags: Updated      |  Repository   |  CodeCommit   |
+  # |  codecommit-repository-comments-on-commits           |  Comments: On commits            |  Repository   |  CodeCommit   |
+  # |  codecommit-repository-comments-on-pull-requests     |  Comments: On pull requests      |  Repository   |  CodeCommit   |
+  # |  codecommit-repository-pull-request-created          |  Pull request: Created           |  Repository   |  CodeCommit   |
+  # |  codecommit-repository-pull-request-merged           |  Pull request: Merged            |  Repository   |  CodeCommit   |
+  # |  codecommit-repository-pull-request-source-updated   |  Pull request: Source updated    |  Repository   |  CodeCommit   |
+  # |  codecommit-repository-pull-request-status-changed   |  Pull request: Status changed    |  Repository   |  CodeCommit   |
+  # |  codedeploy-application-deployment-failed            |  Deployment: Failed              |  Application  |  CodeDeploy   |
+  # |  codedeploy-application-deployment-started           |  Deployment: Started             |  Application  |  CodeDeploy   |
+  # |  codedeploy-application-deployment-succeeded         |  Deployment: Succeeded           |  Application  |  CodeDeploy   |
+  # |  codepipeline-pipeline-action-execution-canceled     |  Action execution: Canceled      |  Pipeline     |  CodePipeline |
+  # |  codepipeline-pipeline-action-execution-failed       |  Action execution: Failed        |  Pipeline     |  CodePipeline |
+  # |  codepipeline-pipeline-action-execution-started      |  Action execution: Started       |  Pipeline     |  CodePipeline |
+  # |  codepipeline-pipeline-action-execution-succeeded    |  Action execution: Succeeded     |  Pipeline     |  CodePipeline |
+  # |  codepipeline-pipeline-manual-approval-failed        |  Manual approval: Failed         |  Pipeline     |  CodePipeline |
+  # |  codepipeline-pipeline-manual-approval-needed        |  Manual approval: Needed         |  Pipeline     |  CodePipeline |
+  # |  codepipeline-pipeline-manual-approval-succeeded     |  Manual approval: Succeeded      |  Pipeline     |  CodePipeline |
+  # |  codepipeline-pipeline-pipeline-execution-canceled   |  Pipeline execution: Canceled    |  Pipeline     |  CodePipeline |
+  # |  codepipeline-pipeline-pipeline-execution-failed     |  Pipeline execution: Failed      |  Pipeline     |  CodePipeline |
+  # |  codepipeline-pipeline-pipeline-execution-resumed    |  Pipeline execution: Resumed     |  Pipeline     |  CodePipeline |
+  # |  codepipeline-pipeline-pipeline-execution-started    |  Pipeline execution: Started     |  Pipeline     |  CodePipeline |
+  # |  codepipeline-pipeline-pipeline-execution-succeeded  |  Pipeline execution: Succeeded   |  Pipeline     |  CodePipeline |
+  # |  codepipeline-pipeline-pipeline-execution-superseded |  Pipeline execution: Superseded  |  Pipeline     |  CodePipeline |
+  # |  codepipeline-pipeline-stage-execution-canceled      |  Stage execution: Canceled       |  Pipeline     |  CodePipeline |
+  # |  codepipeline-pipeline-stage-execution-failed        |  Stage execution: Failed         |  Pipeline     |  CodePipeline |
+  # |  codepipeline-pipeline-stage-execution-resumed       |  Stage execution: Resumed        |  Pipeline     |  CodePipeline |
+  # |  codepipeline-pipeline-stage-execution-started       |  Stage execution: Started        |  Pipeline     |  CodePipeline |
+  # |  codepipeline-pipeline-stage-execution-succeeded     |  Stage execution: Succeeded      |  Pipeline     |  CodePipeline |
+  # +------------------------------------------------------+----------------------------------+---------------+---------------+
+
+  NotificationRule:
+    Type: AWS::CodeStarNotifications::NotificationRule
+    Properties:
+      DetailType: FULL #  BASIC | FULL
+      EventTypeIds:
+        - codepipeline-pipeline-pipeline-execution-canceled
+        - codepipeline-pipeline-pipeline-execution-failed
+        - codepipeline-pipeline-pipeline-execution-succeeded
+      Name: !Sub '${ParamPipelineName}CodePipeline'
+      Resource: !Sub 'arn:aws:codepipeline:${AWS::Region}:${AWS::AccountId}:${ParamPipelineName}'
+      Status: ENABLED # DISABLED | ENABLED
+      Targets:
+        - TargetAddress: !Ref SnsTopic
+          TargetType: SNS
+
+  # SlackChannelRole:
+  #   Type: AWS::IAM::Role
+  #   Properties:
+  #     AssumeRolePolicyDocument:
+  #       Version: 2012-10-17
+  #       Statement:
+  #         - Effect: Allow
+  #           Principal:
+  #             Service:
+  #               - chatbot.amazonaws.com
+  #           Action:
+  #             - 'sts:AssumeRole'
+  #     ManagedPolicyArns:
+  #       - arn:aws:iam::aws:policy/IAMReadOnlyAccess
+  #       - arn:aws:iam::aws:policy/CloudWatchReadOnlyAccess
+  #     RoleName: !Sub '${ParamPipelineName}Notification'
+
+  # SlackChannel:
+  #   Type: AWS::Chatbot::SlackChannelConfiguration
+  #   Properties:
+  #     ConfigurationName: !Ref ParamPipelineName
+  #     IamRoleArn: !GetAtt SlackChannelRole.Arn
+  #     LoggingLevel: INFO # NONE | ERROR | INFO
+  #     SlackChannelId: !Ref ParamSlackChannelId
+  #     SlackWorkspaceId: !Ref ParamSlackWorkspaceId
+  #     SnsTopicArns:
+  #       - !Ref SnsTopic
+
+  SnsTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: !Sub '${ParamPipelineName}Notification'
+
+  SnsTopicPolicy:
+    Type: AWS::SNS::TopicPolicy
+    Properties:
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: AllowAnyOneToSubscribe
+            Effect: Allow
+            Principal:
+              AWS:
+                - !Ref AWS::AccountId
+            Action: sns:Subscribe
+            Resource:
+              - !Ref SnsTopic
+          - Sid: AllowCodeStarNotificationsToPublish
+            Effect: Allow
+            Principal:
+              Service:
+                - 'codestar-notifications.amazonaws.com'
+                - 'cloudwatch.amazonaws.com'
+            Action: ['SNS:Publish']
+            Resource:
+              - !Ref SnsTopic
+      Topics:
+        - !Ref SnsTopic
+
+Outputs:
+  NotificationRuleArn:
+    Value: !Ref NotificationRule
+  # SlackChannelArn:
+  #   Value: !Ref SlackChannel
+  SnsTopicArn:
+    Value: !Ref SnsTopic
+  SnsTopicTopicName:
+    Value: !GetAtt SnsTopic.TopicName

@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter23" },
+  "Title": { "S": "Twenty Three" },
+  "Content": {
+    "S": "To talk little is natural.\nHigh winds do not last all morning.\nHeavy rain does not last all day.\nWhy is this? Heaven and Earth!\nIf heaven and Earth cannot make things eternal,\nHow is it possible for man?\n\nHe who follows the Tao\nIs at one with the Tao.\nHe who is virtuous\nExperiences Virtue.\nHe who loses the way\nIs lost.\nWhen you are at one with the Tao,\nThe Tao welcomes you.\nWhen you are at one with Virtue,\nThe Virtue is always there.\nWhen you are at one with loss,\nThe loss is experienced willingly.\n\nHe who does not trust enough\nWill not be trusted."
+  },
+  "Type": { "S": "QUOTE" }
+}

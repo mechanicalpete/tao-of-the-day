@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter14" },
+  "Title": { "S": "Fourteen" },
+  "Content": {
+    "S": "Look, it cannot be seen - it is beyond form.\nListen, it cannot be heard - it is beyond sound.\nGrasp, it cannot be held - it is intangible.\nThese three are indefinable;\nTherefore they are joined in one.\n\nFrom above it is not bright;\nFrom below it is not dark:\nAn unbroken thread beyond description.\nIt returns to nothingness.\nThe form of the formless,\nThe image of the imageless,\nIt is called indefinable and beyond imagination.\n\nStand before it and there is no beginning.\nFollow it and there is no end.\nStay with the ancient Tao,\nMove with the present.\n\nKnowing the ancient beginning is the essence of Tao."
+  },
+  "Type": { "S": "QUOTE" }
+}

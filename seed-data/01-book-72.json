@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter72" },
+  "Title": { "S": "Seventy Two" },
+  "Content": {
+    "S": "When men lack a sense of awe, there will be disaster.\n\nDo not intrude in their homes.\nDo not harass them at work.\nIf you do not interfere, they will not weary of you.\n\nTherefore the sage knows himself but makes no show,\nHas self-respect but is not arrogant.\nHe lets go of that and chooses this."
+  },
+  "Type": { "S": "QUOTE" }
+}

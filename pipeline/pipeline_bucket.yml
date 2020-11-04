@@ -1,0 +1,124 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  ParamBucketPrefix:
+    Type: String
+    MaxLength: 39
+    MinLength: 3
+    AllowedPattern: ^[0-9a-z][0-9a-z\-]{1,37}[0-9a-z]$
+  ParamBucketSuffix:
+    Type: String
+    MaxLength: 9
+    MinLength: 1
+    Default: 'inception'
+  ParamBucketPrincipals:
+    Type: String
+
+Resources:
+
+  Bucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      BucketName: !Sub '${ParamBucketPrefix}-${AWS::Region}-${ParamBucketSuffix}'
+
+  BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref Bucket
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Sid: DenyUnEncryptedObjectUploads
+            Effect: Deny
+            Principal: '*'
+            Action: 's3:PutObject'
+            Resource: [!Sub '${Bucket.Arn}/*']
+            Condition:
+              StringNotEquals:
+                's3:x-amz-server-side-encryption':  ['AES256', 'aws:kms']
+          - Sid: DenyUnencryptedObjectUploads
+            Effect: Deny
+            Principal: '*'
+            Action: s3:PutObject
+            Resource: [!Sub '${Bucket.Arn}/*']
+            Condition:
+              'Null':
+                s3:x-amz-server-side-encryption: true
+          - Sid: DenyInsecureConnections
+            Effect: Deny
+            Principal: '*'
+            Action: 's3:*'
+            Resource: [!Sub '${Bucket.Arn}/*']
+            Condition:
+              Bool:
+                'aws:SecureTransport': 'false'
+          - Sid: RestrictAccessToBucket
+            Action: ['s3:*']
+            Effect: Allow
+            Resource:
+              - !GetAtt Bucket.Arn
+              - !Sub '${Bucket.Arn}/*'
+            Principal:
+              AWS:
+                Fn::Split: [',', !Ref ParamBucketPrincipals]
+
+  KMSKey:
+    Type: AWS::KMS::Key
+    Properties:
+      Description: Used to protect Build artifacts
+      Enabled: true
+      EnableKeyRotation: true
+      KeyPolicy:
+        Version: '2012-10-17'
+        Id: !Ref AWS::StackName
+        Statement:
+          - Sid: Allows administration of the key
+            Effect: Allow
+            Principal:
+              AWS: 
+                - !Sub 'arn:aws:iam::${AWS::AccountId}:root'
+            Action:
+              - kms:*
+            Resource: '*'
+          - Sid: Allow use of the key from the other accounts
+            Effect: Allow
+            Principal:
+              AWS:
+                Fn::Split: [',', !Ref ParamBucketPrincipals]
+            Action:
+              - kms:Encrypt
+              - kms:Decrypt
+              - kms:ReEncrypt*
+              - kms:GenerateDataKey*
+              - kms:DescribeKey
+            Resource: "*"
+
+  KMSKeyAlias:
+    Type: AWS::KMS::Alias
+    Properties:
+      AliasName: !Sub 'alias/${ParamBucketPrefix}'
+      TargetKeyId: !Ref KMSKey
+
+Outputs:
+  BucketName:
+    Value: !Ref Bucket
+  BucketArn:
+    Value: !GetAtt Bucket.Arn
+  BucketDomainName:
+    Value: !GetAtt Bucket.DomainName
+  BucketDualStackDomainName:
+    Value: !GetAtt Bucket.DualStackDomainName
+  BucketRegionalDomainName:
+    Value: !GetAtt Bucket.RegionalDomainName
+  BucketWebsiteURL:
+    Value: !GetAtt Bucket.WebsiteURL
+  KMSKeyAlias:
+    Value: !Ref KMSKeyAlias
+  KMSKeyId:
+    Value: !Ref KMSKey
+  KMSKeyArn:
+    Value: !GetAtt KMSKey.Arn

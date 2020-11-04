@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter21" },
+  "Title": { "S": "Twenty One" },
+  "Content": {
+    "S": "The greatest Virtue is to follow Tao and Tao alone.\nThe Tao is elusive and intangible.\nOh, it is intangible and elusive, and yet within is image.\nOh, it is elusive and intangible, and yet within is form.\nOh, it is dim and dark, and yet within is essence.\nThis essence is very real, and therein lies faith.\nFrom the very beginning until now its name has never been forgotten.\nThus I perceive the creation.\nHow do I know the ways of creation?\nBecause of this."
+  },
+  "Type": { "S": "QUOTE" }
+}

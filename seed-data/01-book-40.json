@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter40" },
+  "Title": { "S": "Forty" },
+  "Content": {
+    "S": "Returning is the motion of the Tao.\nYielding is the way of the Tao.\nThe ten thousand things are born of being.\nBeing is born of not being."
+  },
+  "Type": { "S": "QUOTE" }
+}

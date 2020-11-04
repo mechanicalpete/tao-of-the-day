@@ -1,0 +1,10 @@
+# Folders
+.scratch/
+.serverless/
+build/
+coverage/
+node_modules/
+
+# Files
+test-report.html
+junit.xml

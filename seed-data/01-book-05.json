@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter05" },
+  "Title": { "S": "Five" },
+  "Content": {
+    "S": "Heaven and Earth are impartial;\nThey see the ten thousand things as straw dogs.\nThe wise are impartial;\nThey see the people as straw dogs.\n\nThe space between heaven and Earth is like a bellows.\nThe shape changes but not the form;\nThe more it moves, the more it yields.\nMore words count less.\nHold fast to the center."
+  },
+  "Type": { "S": "QUOTE" }
+}

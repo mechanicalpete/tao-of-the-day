@@ -1,0 +1,34 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.7
+    commands:
+      - pip install cfn-lint
+      # - pip install checkov
+
+  pre_build:
+    commands:
+      - echo "Validating CloudFormation templates"
+      - TEMPLATE_FILES=$(ls -R -d infrastructure/*.yml && ls -R -d infrastructure/**/*.yml 2> /dev/null || exit 0)
+      - |
+        for TEMPLATE_FILE in $TEMPLATE_FILES; do
+          echo "Validating CloudFormation template file '${TEMPLATE_FILE}'"
+          aws cloudformation validate-template --template-body file://$TEMPLATE_FILE
+          echo "Linting CloudFormation template file '${TEMPLATE_FILE}'"
+          cfn-lint $TEMPLATE_FILE
+          # echo "Running checkov on CloudFormation template file '${TEMPLATE_FILE}'"
+          # checkov -f $TEMPLATE_FILE
+        done
+
+  build:
+    commands:
+      - echo "Copying child stack templates to S3"
+      - |
+        for BUCKET_REGION in $BUCKET_SPOKE_REGIONS; do
+          BUCKET_NAME="${BUCKET_PREFIX}-${BUCKET_REGION}-${BUCKET_SUFFIX}"
+          for TEMPLATE_FILE in $TEMPLATE_FILES; do
+            aws s3 cp --sse "aws:kms" --sse-kms-key-id "$KMSKEY_ALIAS" "$TEMPLATE_FILE" "s3://$BUCKET_NAME/$TEMPLATE_FILE"
+          done
+        done

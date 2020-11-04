@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter24" },
+  "Title": { "S": "Twenty Four" },
+  "Content": {
+    "S": "He who stands on tiptoe is not steady.\nHe who strides cannot maintain the pace.\nHe who makes a show is not enlightened.\nHe who is self-righteous is not respected.\nHe who boasts achieves nothing.\nHe who brags will not endure.\nAccording to followers of the Tao, \"These are extra food and unnecessary luggage.\"\nThey do not bring happiness.\ntherefore followers of the Tao avoid them."
+  },
+  "Type": { "S": "QUOTE" }
+}

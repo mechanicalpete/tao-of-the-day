@@ -1,0 +1,98 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  ParamBucketName:
+    Type: String
+    Description: The bucket to source the child templates from
+  ParamAppSyncApiName:
+    Type: String
+  ParamDynamoDbTableName:
+    Type: String
+
+Resources:
+
+  AppSyncApi:
+    Type: AWS::AppSync::GraphQLApi
+    Properties: 
+      # AdditionalAuthenticationProviders:
+      #   AdditionalAuthenticationProviders
+      AuthenticationType: API_KEY # API_KEY | AWS_IAM | AMAZON_COGNITO_USER_POOLS | OPENID_CONNECT
+      # LogConfig:
+      #   CloudWatchLogsRoleArn:
+      #   ExcludeVerboseContent: false
+      #   FieldLogLevel: ALL # NONE | ERROR | ALL
+      Name: !Ref ParamAppSyncApiName
+      # OpenIDConnectConfig:
+      #   OpenIDConnectConfig
+      # UserPoolConfig:
+      #   UserPoolConfig
+      XrayEnabled: true
+
+  AppSyncApiKey:
+    Type: AWS::AppSync::ApiKey
+    Properties:
+      ApiId: !GetAtt AppSyncApi.ApiId
+      Expires: 1619592851 # ~ 1 year from 2020-04-28 as expressed in epoch seconds
+
+  Schema:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      Parameters:
+        ParamAppSyncApiId : !GetAtt AppSyncApi.ApiId
+      TemplateURL: !Sub 'https://${ParamBucketName}.s3-@@aws-region-hub@@.amazonaws.com/infrastructure/tao-of-the-day-06-transport-appsync-schema.yml'
+      TimeoutInMinutes: 60 # If not specified then there is no timeout.
+
+  DataSourceDynamoDb:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      Parameters:
+        ParamAppSyncApiId : !GetAtt AppSyncApi.ApiId
+        ParamAppSyncApiName: !Ref ParamAppSyncApiName
+        ParamDynamoDbTableName: !Ref ParamDynamoDbTableName
+      TemplateURL: !Sub 'https://${ParamBucketName}.s3-@@aws-region-hub@@.amazonaws.com/infrastructure/tao-of-the-day-06-transport-appsync-dynamodb.yml'
+      TimeoutInMinutes: 60 # If not specified then there is no timeout.
+
+  ResolverDynamoDbGetQuote:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      Parameters:
+        ParamAppSyncApiId : !GetAtt AppSyncApi.ApiId
+        AppSyncApiDataSourceName:
+          Fn::GetAtt: [DataSourceDynamoDb, Outputs.AppSyncApiDataSourceName]
+      TemplateURL: !Sub 'https://${ParamBucketName}.s3-@@aws-region-hub@@.amazonaws.com/infrastructure/tao-of-the-day-06-transport-appsync-dynamodb-query-quote.yml'
+      TimeoutInMinutes: 60 # If not specified then there is no timeout.
+
+  ResolverDynamoDbGetDailyQuote:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      Parameters:
+        ParamAppSyncApiId : !GetAtt AppSyncApi.ApiId
+        AppSyncApiDataSourceName:
+          Fn::GetAtt: [DataSourceDynamoDb, Outputs.AppSyncApiDataSourceName]
+      TemplateURL: !Sub 'https://${ParamBucketName}.s3-@@aws-region-hub@@.amazonaws.com/infrastructure/tao-of-the-day-06-transport-appsync-dynamodb-query-dailyquote.yml'
+      TimeoutInMinutes: 60 # If not specified then there is no timeout.
+
+  ResolverDynamoDbGetDailyQuotes:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      Parameters:
+        ParamAppSyncApiId : !GetAtt AppSyncApi.ApiId
+        AppSyncApiDataSourceName:
+          Fn::GetAtt: [DataSourceDynamoDb, Outputs.AppSyncApiDataSourceName]
+      TemplateURL: !Sub 'https://${ParamBucketName}.s3-@@aws-region-hub@@.amazonaws.com/infrastructure/tao-of-the-day-06-transport-appsync-dynamodb-query-dailyquotes.yml'
+      TimeoutInMinutes: 60 # If not specified then there is no timeout.
+
+Outputs:
+
+  AppSyncApiArn:
+    Value: !GetAtt AppSyncApi.Arn
+  AppSyncApiApiId:
+    Value: !GetAtt AppSyncApi.ApiId
+  AppSyncApiGraphQLUrl:
+    Value: !GetAtt AppSyncApi.GraphQLUrl
+  AppSyncApiKeyApiKey:
+    Value: !GetAtt AppSyncApiKey.ApiKey
+  AppSyncApiKeyArn:
+    Value: !GetAtt AppSyncApiKey.Arn
+  AppSyncApiRegion:
+    Value: !Ref AWS::Region

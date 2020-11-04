@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter31" },
+  "Title": { "S": "Thirty One" },
+  "Content": {
+    "S": "Good weapons are instruments of fear; all creatures hate them.\nTherefore followers of Tao never use them.\nThe wise man prefers the left.\nThe man of war prefers the right.\n\nWeapons are instruments of fear; they are not a wise man's tools.\nHe uses them only when he has no choice.\nPeace and quiet are dear to his heart,\nAnd victory no cause for rejoicing.\nIf you rejoice in victory, then you delight in killing;\nIf you delight in killing, you cannot fulfill yourself.\n\nOn happy occasions precedence is given to the left,\nOn sad occasions to the right.\nIn the army the general stands on the left,\nThe commander-in-chief on the right.\nThis means that war is conducted like a funeral.\nWhen many people are being killed,\nThey should be mourned in heartfelt sorrow.\nThat is why a victory must be observed like a funeral."
+  },
+  "Type": { "S": "QUOTE" }
+}

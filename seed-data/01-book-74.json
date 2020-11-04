@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter74" },
+  "Title": { "S": "Seventy Four" },
+  "Content": {
+    "S": "If men are not afraid to die,\nIt is no avail to threaten them with death.\n\nIf men live in constant fear of dying,\nAnd if breaking the law means that a man will be killed,\nWho will dare to break the law?\n\nThere is always an official executioner.\nIf you try to take his place,\nIt is like trying to be a master carpenter and cutting wood.\nIf you try to cut wood like a master carpenter, you will only hurt your hand."
+  },
+  "Type": { "S": "QUOTE" }
+}

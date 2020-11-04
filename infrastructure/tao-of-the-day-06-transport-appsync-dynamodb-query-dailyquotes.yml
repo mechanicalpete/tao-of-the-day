@@ -1,0 +1,56 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  ParamAppSyncApiId:
+    Type: String
+  AppSyncApiDataSourceName:
+    Type: String
+
+Resources:
+
+  AppSyncApiDataSourceResolver:
+    Type: AWS::AppSync::Resolver
+    Properties:
+      ApiId: !Ref ParamAppSyncApiId
+      # CachingConfig:
+      #   CachingKeys:
+      #     - String
+      #   Ttl: Double
+      DataSourceName: !Ref AppSyncApiDataSourceName
+      FieldName: getDailyQuotes
+      # Kind: UNIT # UNIT (default) | PIPELINE
+      # PipelineConfig:
+      #   Functions:
+      #     - String
+      RequestMappingTemplate: |
+        {
+            "version" : "2017-02-28",
+            "operation" : "Query",
+            "query" : {
+                "expression": "#pk = :pk",
+                "expressionNames": {
+                    "#pk": "PK"
+                },
+                "expressionValues": {
+                    ":pk": $util.dynamodb.toDynamoDBJson("DAILYQUOTE")
+                }
+            },
+            "select" : "ALL_ATTRIBUTES"
+        }
+      ResponseMappingTemplate: |
+        $utils.toJson($context.result.items)
+      # SyncConfig:
+      #   ConflictDetection: String
+      #   ConflictHandler: String
+      #   LambdaConflictHandlerConfig:
+      #     LambdaConflictHandlerArn: String
+      TypeName: Query # Query | Mutation
+
+Outputs:
+
+  AppSyncApiDataSourceResolverArn:
+      Value: !GetAtt AppSyncApiDataSourceResolver.ResolverArn
+  AppSyncApiDataSourceResolverFieldName:
+      Value: !GetAtt AppSyncApiDataSourceResolver.FieldName
+  AppSyncApiDataSourceResolverTypeName:
+      Value: !GetAtt AppSyncApiDataSourceResolver.TypeName

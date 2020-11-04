@@ -1,0 +1,92 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  ParamPipelineName:
+    Type: String
+  ParamAlarmNameSuffix:
+    Type: String
+  ParamMetricNamespace:
+    Type: String
+  ParamMetricName:
+    Type: String
+  ParamComparisonOperator:
+    Type: String
+    AllowedValues:
+      - GreaterThanOrEqualToThreshold
+      - GreaterThanThreshold
+      - GreaterThanUpperThreshold
+      - LessThanLowerOrGreaterThanUpperThreshold
+      - LessThanLowerThreshold
+      - LessThanOrEqualToThreshold
+      - LessThanThreshold
+  ParamDimensionName:
+    Type: String
+    Default: ''
+  ParamDimensionValue:
+    Type: String
+    Default: ''
+  ParamPeriod:
+    Type: Number
+    Default: 60
+    AllowedValues:
+      - 60 # 1 minute
+      - 300 # 5 minutes
+  ParamStatistic:
+    Type: String
+    AllowedValues:
+      - Average
+      - Maximum
+      - Minimum
+      - SampleCount
+      - Sum
+  ParamThreshold:
+    Type: Number
+  ParamTreatMissingData:
+    Type: String
+    AllowedValues:
+      - breaching
+      - notBreaching
+      - ignore
+      - missing
+  ParamSnsTopicArn:
+    Type: String
+
+Conditions:
+  HasNoDimension: !And [ !Equals [ !Ref ParamDimensionName, ''], !Equals [ !Ref ParamDimensionValue, '']]
+
+Resources:
+
+  Alarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties: 
+      ActionsEnabled: true
+      AlarmActions:
+        - !Ref ParamSnsTopicArn
+      AlarmName: !Sub "${ParamPipelineName}${ParamAlarmNameSuffix}"
+      ComparisonOperator: !Ref ParamComparisonOperator
+      DatapointsToAlarm: 1
+      Dimensions:
+        !If
+          - HasNoDimension
+          - !Ref AWS::NoValue
+          - - Name: !Ref ParamDimensionName
+              Value: !Ref ParamDimensionValue
+      EvaluationPeriods: 1
+      # InsufficientDataActions:
+      #   - String
+      Namespace: !Ref ParamMetricNamespace
+      MetricName: !Ref ParamMetricName
+      OKActions:
+        - !Ref ParamSnsTopicArn
+      Period: !Ref ParamPeriod
+      Statistic: !Ref ParamStatistic
+      Threshold: !Ref ParamThreshold
+      # ThresholdMetricId: String
+      TreatMissingData: !Ref ParamTreatMissingData
+      # Unit: String
+
+Outputs:
+  AlarmName:
+    Value: !Ref Alarm
+  AlarmArn:
+    Value: !GetAtt Alarm.Arn

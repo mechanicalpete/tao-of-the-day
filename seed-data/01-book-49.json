@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter49" },
+  "Title": { "S": "Forty Nine" },
+  "Content": {
+    "S": "The sage has no mind of his own.\nHe is aware of the needs of others.\n\nI am good to people who are good.\nI am also good to people who are not good.\nBecause Virtue is goodness.\nI have faith in people who are faithful.\nI also have faith in people who are not faithful.\nBecause Virtue is faithfulness.\n\nThe sage is shy and humble - to the world he seems confusing.\nOthers look to him and listen.\nHe behaves like a little child."
+  },
+  "Type": { "S": "QUOTE" }
+}

@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter12" },
+  "Title": { "S": "Twelve" },
+  "Content": {
+    "S": "The five colors blind the eye.\nThe five tones deafen the ear.\nThe five flavors dull the taste.\nRacing and hunting madden the mind.\nPrecious things lead one astray.\n\nTherefore the sage is guided by what he feels and not by what he sees.\nHe lets go of that and chooses this."
+  },
+  "Type": { "S": "QUOTE" }
+}

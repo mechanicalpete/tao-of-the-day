@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter26" },
+  "Title": { "S": "Twenty Six" },
+  "Content": {
+    "S": "The heavy is the root of the light.\nThe still is the master of unrest.\n\nTherefore the sage, traveling all day,\nDoes not lose sight of his baggage.\nThough there are beautiful things to be seen,\nHe remains unattached and calm.\n\nWhy should the lord of ten thousand chariots act lightly in public?\nTo be light is to lose one's root.\nTo be restless is to lose one's control."
+  },
+  "Type": { "S": "QUOTE" }
+}

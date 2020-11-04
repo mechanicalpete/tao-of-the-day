@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter48" },
+  "Title": { "S": "Forty Eight" },
+  "Content": {
+    "S": "In the pursuit of learning, every day something is acquired.\nIn the pursuit of Tao, every day something is dropped.\n\nLess and less is done\nUntil non-action is achieved.\nWhen nothing is done, nothing is left undone.\n\nThe world is ruled by letting things take their course.\nIt cannot be ruled by interfering."
+  },
+  "Type": { "S": "QUOTE" }
+}

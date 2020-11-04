@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter71" },
+  "Title": { "S": "Seventy One" },
+  "Content": {
+    "S": "Knowing ignorance is strength.\nIgnoring knowledge is sickness.\n\nIf one is sick of sickness, then one is not sick.\nThe sage is not sick because he is sick of sickness.\nTherefore he is not sick."
+  },
+  "Type": { "S": "QUOTE" }
+}

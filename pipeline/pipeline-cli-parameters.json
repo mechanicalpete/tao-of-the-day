@@ -1,0 +1,34 @@
+[
+  {
+    "ParameterKey": "ParamPipelineName",
+    "ParameterValue": "@@camel-case-name@@"
+  },
+  {
+    "ParameterKey": "ParamBucketPrefix",
+    "ParameterValue": "@@kebab-case-name@@"
+  },
+  {
+    "ParameterKey": "ParamBucketSpokeRegions",
+    "ParameterValue": "@@aws-region-hub@@ us-east-1"
+  },
+  {
+    "ParameterKey": "ParamGitHubOwner",
+    "ParameterValue": "@@github-repo-owner@@"
+  },
+  {
+    "ParameterKey": "ParamGitHubRepo",
+    "ParameterValue": "@@github-repo-name@@"
+  },
+  {
+    "ParameterKey": "ParamGitHubBranch",
+    "ParameterValue": "main"
+  },
+  {
+    "ParameterKey": "ParamSlackWorkspaceId",
+    "ParameterValue": ""
+  },
+  {
+    "ParameterKey": "ParamSlackChannelId",
+    "ParameterValue": ""
+  }
+]

@@ -1,0 +1,991 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  ParamPipelineName:
+    Type: String
+    MaxLength: 54
+    MinLength: 4
+    AllowedPattern: ^[A-Za-z0-9][A-Za-z0-9\-]{2,52}[A-Za-z0-9]$
+    ConstraintDescription: 'Must only contain alphanumeric or dashes (and cannot start or end with a dash)'
+  ParamBucketPrefix:
+    Type: String
+    MaxLength: 39
+    MinLength: 3
+    AllowedPattern: ^[0-9a-z][0-9a-z\-]{1,37}[0-9a-z]$
+  ParamBucketSpokeRegions:
+    Type: String
+  ParamBucketSuffix:
+    Type: String
+    MaxLength: 9
+    MinLength: 1
+    Default: 'inception'
+  ParamGitHubOwner:
+    Type: String
+  ParamGitHubRepo:
+    Type: String
+  ParamGitHubBranch:
+    Type: String
+  ParamSlackChannelId:
+    Type: String
+  ParamSlackWorkspaceId:
+    Type: String
+
+Resources:
+
+  CloudFormationDeployActionRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action: ['sts:AssumeRole']
+          Effect: Allow
+          Principal:
+            Service: [cloudformation.amazonaws.com]
+        Version: '2012-10-17'
+      Path: /
+      Policies:
+        - PolicyName: CloudFormationRole
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Sid: 'AdministerCloudFormation'
+                Effect: Allow
+                Action:
+                  - 'cloudformation:CreateStack'
+                  - 'cloudformation:DeleteStack'
+                  - 'cloudformation:DescribeStacks'
+                Resource: ['*']
+              - Sid: 'AdministerCodePipeline'
+                Effect: Allow
+                Action:
+                  - 'codepipeline:CreatePipeline'
+                  - 'codepipeline:DeletePipeline'
+                  - 'codepipeline:DeleteWebhook'
+                  - 'codepipeline:DeregisterWebhookWithThirdParty'
+                  - 'codepipeline:GetPipeline'
+                  - 'codepipeline:GetPipelineState'
+                  - 'codepipeline:ListWebhooks'
+                  - 'codepipeline:PutWebhook'
+                  - 'codepipeline:RegisterWebhookWithThirdParty'
+                  - 'codepipeline:StartPipelineExecution'
+                  - 'codepipeline:TagResource'
+                  - 'codepipeline:UntagResource'
+                  - 'codepipeline:UpdatePipeline'
+                Resource: ['*']
+              - Sid: 'AdministerIam'
+                Effect: Allow
+                Action:
+                  - 'iam:AttachRolePolicy'
+                  - 'iam:CreatePolicy'
+                  - 'iam:CreatePolicyVersion'
+                  - 'iam:CreateRole'
+                  - 'iam:CreateServiceLinkedRole'
+                  - 'iam:DeletePolicy'
+                  - 'iam:DeletePolicyVersion'
+                  - 'iam:DeleteRole'
+                  - 'iam:DeleteRolePolicy'
+                  - 'iam:DetachRolePolicy'
+                  - 'iam:GetPolicy'
+                  - 'iam:GetRole'
+                  - 'iam:GetRolePolicy'
+                  - 'iam:ListPolicyVersions'
+                  - 'iam:ListRoleTags'
+                  - 'iam:PassRole'
+                  - 'iam:PutRolePolicy'
+                  - 'iam:TagRole'
+                  - 'iam:UntagRole'
+                Resource: ['*']
+              - Sid: 'AdministerKMS'
+                Effect: Allow
+                Action:
+                  - 'kms:*'
+                Resource: ['*']
+              - Sid: 'AdministerS3'
+                Effect: Allow
+                Action:
+                  - 's3:CreateBucket'
+                  - 's3:DeleteBucket'
+                  - 's3:DeleteBucketEncryption'
+                  - 's3:DeleteBucketOwnershipControls'
+                  - 's3:DeleteBucketPolicy'
+                  - 's3:DeleteBucketWebsite'
+                  - 's3:DescribeBucketPolicy'
+                  - 's3:GetAccountPublicAccessBlock'
+                  - 's3:GetBucket*'
+                  - 's3:GetEncryptionConfiguration'
+                  - 's3:ListAllMyBuckets'
+                  - 's3:ListBucket'
+                  - 's3:PutAccelerateConfiguration'
+                  - 's3:PutBucket*'
+                  - 's3:PutEncryptionConfiguration'
+                  - 's3:SetBucketEncryption'
+                Resource: ['*']
+              - Sid: 'AdministerCodeBuild'
+                Effect: 'Allow'
+                Action:
+                  - 'codebuild:BatchGetProjects'
+                  - 'codebuild:CreateProject'
+                  - 'codebuild:CreateReport'
+                  - 'codebuild:CreateReportGroup'
+                  - 'codebuild:CreateWebhook'
+                  - 'codebuild:UpdateWebhook'
+                  - 'codebuild:DeleteProject'
+                  - 'codebuild:DeleteReport'
+                  - 'codebuild:DeleteReportGroup'
+                  - 'codebuild:DeleteResourcePolicy'
+                  - 'codebuild:DeleteSourceCredentials'
+                  - 'codebuild:GetResourcePolicy'
+                  - 'codebuild:ImportSourceCredentials'
+                  - 'codebuild:ListBuilds'
+                  - 'codebuild:ListBuildsForProject'
+                  - 'codebuild:ListCuratedEnvironmentImages'
+                  - 'codebuild:ListProjects'
+                  - 'codebuild:ListReportGroups'
+                  - 'codebuild:ListReports'
+                  - 'codebuild:PutResourcePolicy'
+                  - 'codebuild:StartBuild'
+                  - 'codebuild:StopBuild'
+                  - 'codebuild:UpdateProject'
+                  - 'codebuild:UpdateReport'
+                  - 'codebuild:UpdateReportGroup'
+                Resource: ['*']
+              - Sid: 'AdministerChatbot'
+                Effect: 'Allow'
+                Action:
+                  - 'chatbot:CreateSlackChannelConfiguration'
+                  - 'chatbot:DeleteSlackChannelConfiguration'
+                  - 'chatbot:DescribeSlackChannelConfigurations'
+                  - 'chatbot:DescribeSlackChannels'
+                  - 'chatbot:DescribeSlackWorkspaces'
+                  - 'chatbot:GetSlackOauthParameters'
+                  - 'chatbot:RedeemSlackOauthCode'
+                  - 'chatbot:UpdateSlackChannelConfiguration'
+                Resource: ['*']
+              - Sid: 'AdministerSns'
+                Effect: 'Allow'
+                Action:
+                  - 'sns:AddPermission'
+                  - 'sns:ConfirmSubscription'
+                  - 'sns:CreateTopic'
+                  - 'sns:DeleteTopic'
+                  - 'sns:GetSubscriptionAttributes'
+                  - 'sns:GetTopicAttributes'
+                  - 'sns:ListSubscriptions'
+                  - 'sns:ListSubscriptionsByTopic'
+                  - 'sns:ListTagsForResource'
+                  - 'sns:ListTopics'
+                  - 'sns:RemovePermission'
+                  - 'sns:SetSubscriptionAttributes'
+                  - 'sns:SetTopicAttributes'
+                  - 'sns:TagResource'
+                  - 'sns:Unsubscribe'
+                  - 'sns:UntagResource'
+                Resource: ['*']
+              - Sid: 'AdministerCodeStar'
+                Effect: 'Allow'
+                Action:
+                  - 'codestar-notifications:*'
+                Resource: ['*']
+              - Sid: 'AdministerCloudWatch'
+                Effect: 'Allow'
+                Action:
+                  - 'cloudwatch:DeleteAlarms'
+                  - 'cloudwatch:DeleteDashboards'
+                  - 'cloudwatch:DescribeAlarmHistory'
+                  - 'cloudwatch:DescribeAlarms'
+                  - 'cloudwatch:DescribeAlarmsForMetric'
+                  - 'cloudwatch:DisableAlarmActions'
+                  - 'cloudwatch:EnableAlarmActions'
+                  - 'cloudwatch:GetDashboard'
+                  - 'cloudwatch:GetMetricData'
+                  - 'cloudwatch:GetMetricStatistics'
+                  - 'cloudwatch:ListDashboards'
+                  - 'cloudwatch:ListMetrics'
+                  - 'cloudwatch:ListTagsForResource'
+                  - 'cloudwatch:PutDashboard'
+                  - 'cloudwatch:PutMetricAlarm'
+                  - 'cloudwatch:SetAlarmState'
+                  - 'cloudwatch:TagResource'
+                  - 'cloudwatch:UntagResource'
+                Resource: ['*']
+              - Sid: 'AdministerDynamoDb'
+                Action:
+                  - 'dynamodb:CreateBackup'
+                  - 'dynamodb:CreateTable'
+                  - 'dynamodb:CreateTableReplica'
+                  - 'dynamodb:DeleteBackup'
+                  - 'dynamodb:DeleteTable'
+                  - 'dynamodb:DescribeBackup'
+                  - 'dynamodb:DescribeContinuousBackups'
+                  - 'dynamodb:DescribeLimits'
+                  - 'dynamodb:DescribeStream'
+                  - 'dynamodb:DescribeTable'
+                  - 'dynamodb:DescribeTableReplicaAutoScaling'
+                  - 'dynamodb:DescribeTimeToLive'
+                  - 'dynamodb:ListBackups'
+                  - 'dynamodb:ListTables'
+                  - 'dynamodb:ListTagsOfResource'
+                  - 'dynamodb:RestoreTableFromBackup'
+                  - 'dynamodb:RestoreTableToPointInTime'
+                  - 'dynamodb:TagResource'
+                  - 'dynamodb:UntagResource'
+                  - 'dynamodb:UpdateContinuousBackups'
+                  - 'dynamodb:UpdateTable'
+                  - 'dynamodb:UpdateTableReplicaAutoScaling'
+                  - 'dynamodb:UpdateTimeToLive'
+                Effect: Allow
+                Resource: ['*']
+              - Sid: 'AdministerCloudFront'
+                Action:
+                  - 'cloudfront:CreateCloudFrontOriginAccessIdentity'
+                  - 'cloudfront:CreateDistribution'
+                  - 'cloudfront:CreateDistributionWithTags'
+                  - 'cloudfront:DeleteCloudFrontOriginAccessIdentity'
+                  - 'cloudfront:DeleteDistribution'
+                  - 'cloudfront:GetCloudFrontOriginAccessIdentity'
+                  - 'cloudfront:GetCloudFrontOriginAccessIdentityConfig'
+                  - 'cloudfront:GetDistribution'
+                  - 'cloudfront:GetDistributionConfig'
+                  - 'cloudfront:ListCloudFrontOriginAccessIdentities'
+                  - 'cloudfront:ListDistributions'
+                  - 'cloudfront:ListDistributionsByWebACLId'
+                  - 'cloudfront:ListTagsForResource'
+                  - 'cloudfront:TagResource'
+                  - 'cloudfront:UntagResource'
+                  - 'cloudfront:UpdateCloudFrontOriginAccessIdentity'
+                  - 'cloudfront:UpdateDistribution'
+                Effect: Allow
+                Resource: ['*']
+              - Sid: 'AdministerAppSync'
+                Action:
+                  - 'appsync:CreateApiKey'
+                  - 'appsync:CreateDataSource'
+                  - 'appsync:CreateGraphqlApi'
+                  - 'appsync:CreateResolver'
+                  - 'appsync:CreateType'
+                  - 'appsync:DeleteApiKey'
+                  - 'appsync:DeleteDataSource'
+                  - 'appsync:DeleteGraphqlApi'
+                  - 'appsync:DeleteResolver'
+                  - 'appsync:DeleteType'
+                  - 'appsync:GetDataSource'
+                  - 'appsync:GetGraphqlApi'
+                  - 'appsync:GetResolver'
+                  - 'appsync:GetSchemaCreationStatus'
+                  - 'appsync:ListApiKeys'
+                  - 'appsync:ListDataSources'
+                  - 'appsync:ListGraphqlApis'
+                  - 'appsync:ListResolvers'
+                  - 'appsync:ListTagsForResource'
+                  - 'appsync:ListTypes'
+                  - 'appsync:StartSchemaCreation'
+                  - 'appsync:TagResource'
+                  - 'appsync:UntagResource'
+                  - 'appsync:UpdateApiKey'
+                  - 'appsync:UpdateDataSource'
+                  - 'appsync:UpdateGraphqlApi'
+                  - 'appsync:UpdateResolver'
+                  - 'appsync:UpdateType'
+                Effect: Allow
+                Resource: ['*']
+              - Sid: 'ReadGitHubSecrets'
+                Effect: 'Allow'
+                Action:
+                  - 'secretsmanager:GetSecretValue'
+                Resource:
+                  - !Sub 'arn:aws:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:github/patoken/@@kebab-case-name@@*'
+                  - !Sub 'arn:aws:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:github/webhook/@@kebab-case-name@@*'
+      RoleName: !Sub '${ParamPipelineName}CfnDeploy'
+
+  CodePipelineRole:
+    DependsOn:
+      - CloudFormationDeployActionRole
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ['codepipeline.amazonaws.com']
+            Action: ['sts:AssumeRole']
+      Path: /
+      Policies:
+        - PolicyName: codepipeline-service
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Sid: 'GrantCloudFormationPermissions'
+                Effect: Allow
+                Action:
+                  - 'cloudformation:CreateStack'
+                  - 'cloudformation:DeleteStack'
+                  - 'cloudformation:DescribeStackEvents'
+                  - 'cloudformation:DescribeStackResource'
+                  - 'cloudformation:DescribeStackResources'
+                  - 'cloudformation:DescribeStacks'
+                  - 'cloudformation:GetTemplate'
+                  - 'cloudformation:UpdateStack'
+                Resource: ['*']
+              - Sid: 'GrantCodeBuildPermissions'
+                Effect: Allow
+                Action:
+                  - 'codebuild:BatchDeleteBuilds'
+                  - 'codebuild:BatchGetBuilds'
+                  - 'codebuild:BatchGetProjects'
+                  - 'codebuild:CreateProject'
+                  - 'codebuild:ListBuilds'
+                  - 'codebuild:ListBuildsForProject'
+                  - 'codebuild:ListCuratedEnvironmentImages'
+                  - 'codebuild:ListProjects'
+                  - 'codebuild:StartBuild'
+                  - 'codebuild:StopBuild'
+                  - 'codebuild:UpdateProject'
+                  - 'codebuild:UpdateWebhook'
+                Resource: ['*']
+              - Sid: 'GrantIamPermissions'
+                Effect: Allow
+                Action:
+                  - 'iam:PassRole'
+                Resource: ['*']
+              - Sid: 'GrantKmsPermissions'
+                Effect: Allow
+                Action:
+                  - 'kms:Decrypt'
+                  - 'kms:DescribeKey'
+                  - 'kms:Encrypt'
+                  - 'kms:GenerateDataKey*'
+                  - 'kms:ReEncrypt*'
+                Resource: ['*']
+              - Sid: 'GrantS3Permissions'
+                Effect: Allow
+                Action:
+                  - 's3:CreateBucket'
+                  - 's3:DeleteBucket'
+                  - 's3:DeleteBucketEncryption'
+                  - 's3:DeleteBucketPolicy'
+                  - 's3:DeleteObject'
+                  - 's3:DescribeBucketPolicy'
+                  - 's3:GetBucketEncryption'
+                  - 's3:GetBucketPolicy'
+                  - 's3:GetBucketPolicyStatus'
+                  - 's3:GetBucketVersioning'
+                  - 's3:GetEncryptionConfiguration'
+                  - 's3:GetObject'
+                  - 's3:GetObjectVersion'
+                  - 's3:ListBucket'
+                  - 's3:PutBucketPolicy'
+                  - 's3:PutEncryptionConfiguration'
+                  - 's3:PutObject'
+                  - 's3:SetBucketEncryption'
+                Resource: ['*']
+              - Sid: 'ReadGitHubSecrets'
+                Effect: 'Allow'
+                Action:
+                  - 'secretsmanager:DescribeSecret'
+                  - 'secretsmanager:GetSecretValue'
+                  - 'secretsmanager:GetSecretValue'
+                  - 'secretsmanager:ListSecrets'
+                  - 'secretsmanager:ListSecretVersionIds'
+                Resource:
+                  - !Sub 'arn:aws:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:github/patoken/@@kebab-case-name@@*'
+                  - !Sub 'arn:aws:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:github/webhook/@@kebab-case-name@@*'
+      RoleName: !Sub '${ParamPipelineName}Pipeline'
+
+  CodePipelineWebhook:
+    Type: AWS::CodePipeline::Webhook
+    Properties:
+      Authentication: GITHUB_HMAC
+      AuthenticationConfiguration:
+        SecretToken: '{{resolve:secretsmanager:github/webhook/@@kebab-case-name@@}}'
+      Filters:
+        - JsonPath: '$.ref'
+          MatchEquals: !Sub 'refs/heads/${ParamGitHubBranch}'
+      Name: !Sub '${ParamPipelineName}GitHubWebhook'
+      RegisterWithThirdParty: true
+      TargetPipeline: !Ref CodePipeline
+      TargetAction: GithubSource
+      TargetPipelineVersion: !GetAtt CodePipeline.Version
+
+  CodePipeline:
+    Type: 'AWS::CodePipeline::Pipeline'
+    Properties:
+      ArtifactStores:
+        - ArtifactStore:
+            EncryptionKey:
+              Id: !Sub 'alias/${ParamBucketPrefix}'
+              Type: KMS
+            Location: !Sub '${ParamBucketPrefix}-@@aws-region-hub@@-${ParamBucketSuffix}'
+            Type: S3
+          Region: @@aws-region-hub@@
+        - ArtifactStore:
+            EncryptionKey:
+              Id: !Sub 'alias/${ParamBucketPrefix}'
+              Type: KMS
+            Location: !Sub '${ParamBucketPrefix}-us-east-1-${ParamBucketSuffix}'
+            Type: S3
+          Region: us-east-1
+      Name: !Ref ParamPipelineName
+      RestartExecutionOnUpdate: true
+      RoleArn: !GetAtt CodePipelineRole.Arn
+      Stages:
+        - Name: 'Source'
+          Actions:
+            - Name: GithubSource
+              ActionTypeId:
+                Category: Source
+                Owner: ThirdParty
+                Provider: GitHub
+                Version: '1'
+              Configuration:
+                Owner: !Ref ParamGitHubOwner
+                Repo: !Ref ParamGitHubRepo
+                Branch: !Ref ParamGitHubBranch
+                OAuthToken: '{{resolve:secretsmanager:github/patoken/@@kebab-case-name@@}}'
+                PollForSourceChanges: false
+              OutputArtifacts:
+                - Name: GitHubSource
+              RunOrder: 1
+        - Name: 'AdministerPipeline'
+          Actions:
+            - Name: 'AdministerPipeline'
+              ActionTypeId:
+                Category: Deploy
+                Owner: AWS
+                Provider: CloudFormation
+                Version: '1'
+              Configuration:
+                ActionMode: REPLACE_ON_FAILURE
+                Capabilities: CAPABILITY_NAMED_IAM
+                RoleArn: !GetAtt CloudFormationDeployActionRole.Arn
+                StackName: !Sub '${ParamPipelineName}Inception'
+                TemplateConfiguration: 'GitHubSource::pipeline/pipeline.json'
+                TemplatePath: 'GitHubSource::pipeline/pipeline.yml'
+              InputArtifacts:
+                - Name: 'GitHubSource'
+              RunOrder: 1
+            - Name: 'AdministerRegionalBucketHub'
+              Namespace: 'AdministerRegionalBucketHubOutputs'
+              ActionTypeId:
+                Category: Deploy
+                Owner: AWS
+                Provider: CloudFormation
+                Version: '1'
+              Configuration:
+                ActionMode: REPLACE_ON_FAILURE
+                Capabilities: CAPABILITY_NAMED_IAM
+                RoleArn: !GetAtt CloudFormationDeployActionRole.Arn
+                StackName: !Sub '${ParamPipelineName}RegionalBucket'
+                ParameterOverrides: !Sub |
+                  {
+                    "ParamBucketPrefix": "${ParamBucketPrefix}"
+                    ,"ParamBucketSuffix": "${ParamBucketSuffix}"
+                    ,"ParamBucketPrincipals": "${CodePipelineRole.Arn},${CodeBuildValidationRole.Arn},${CloudFormationDeployActionRole.Arn}"
+                  }
+                TemplateConfiguration: 'GitHubSource::pipeline/resource_tags.json'
+                TemplatePath: 'GitHubSource::pipeline/pipeline_bucket.yml'
+              InputArtifacts:
+                - Name: 'GitHubSource'
+              Region: @@aws-region-hub@@
+              RunOrder: 2
+            - Name: 'AdministerRegionalBucketNorthVirginia'
+              ActionTypeId:
+                Category: Deploy
+                Owner: AWS
+                Provider: CloudFormation
+                Version: '1'
+              Configuration:
+                ActionMode: REPLACE_ON_FAILURE
+                Capabilities: CAPABILITY_NAMED_IAM
+                RoleArn: !GetAtt CloudFormationDeployActionRole.Arn
+                StackName: !Sub '${ParamPipelineName}RegionalBucket'
+                ParameterOverrides: !Sub |
+                  {
+                    "ParamBucketPrefix": "${ParamBucketPrefix}"
+                    ,"ParamBucketSuffix": "${ParamBucketSuffix}"
+                    ,"ParamBucketPrincipals": "${CodePipelineRole.Arn},${CodeBuildValidationRole.Arn},${CloudFormationDeployActionRole.Arn}"
+                  }
+                TemplateConfiguration: 'GitHubSource::pipeline/resource_tags.json'
+                TemplatePath: 'GitHubSource::pipeline/pipeline_bucket.yml'
+              InputArtifacts:
+                - Name: 'GitHubSource'
+              Region: us-east-1
+              RunOrder: 2
+            - Name: 'Notifications'
+              Namespace: 'NotificationsOutputs'
+              ActionTypeId:
+                Category: Deploy
+                Owner: AWS
+                Provider: CloudFormation
+                Version: '1'
+              Configuration:
+                ActionMode: REPLACE_ON_FAILURE
+                Capabilities: CAPABILITY_NAMED_IAM
+                ParameterOverrides: !Sub |
+                  {
+                    "ParamPipelineName": "${ParamPipelineName}",
+                    "ParamSlackChannelId": "${ParamSlackChannelId}",
+                    "ParamSlackWorkspaceId": "${ParamSlackWorkspaceId}"
+                  }
+                RoleArn: !GetAtt CloudFormationDeployActionRole.Arn
+                StackName: !Sub '${ParamPipelineName}Notifications'
+                TemplatePath: 'GitHubSource::pipeline/pipeline_notifications.yml'
+              InputArtifacts:
+                - Name: 'GitHubSource'
+              RunOrder: 3
+            - Name: 'GitHubActions'
+              ActionTypeId:
+                Category: Deploy
+                Owner: AWS
+                Provider: CloudFormation
+                Version: '1'
+              Configuration:
+                ActionMode: REPLACE_ON_FAILURE
+                Capabilities: CAPABILITY_NAMED_IAM
+                ParameterOverrides: !Sub |
+                  {
+                    "ParamCodeBuildProjectName": "${ParamPipelineName}GitHubActions",
+                    "ParamCodeBuildBuildSpec": "pipeline/buildspec-validation.yml",
+                    "ParamGitHubOwner": "${ParamGitHubOwner}",
+                    "ParamGitHubRepo": "${ParamGitHubRepo}"
+                  }
+                RoleArn: !GetAtt CloudFormationDeployActionRole.Arn
+                StackName: !Sub '${ParamPipelineName}GitHubActions'
+                TemplatePath: 'GitHubSource::pipeline/pipeline_github_actions.yml'
+              InputArtifacts:
+                - Name: 'GitHubSource'
+              RunOrder: 3
+            - Name: 'ValidateCloudFormation'
+              ActionTypeId:
+                Category: Build
+                Owner: AWS
+                Version: '1'
+                Provider: CodeBuild
+              Configuration:
+                ProjectName: !Ref CodeBuildValidationProject
+              InputArtifacts:
+                - Name: 'GitHubSource'
+              OutputArtifacts:
+                - Name: 'Ignored'
+              RunOrder: 999
+        - Name: 'Deploy'
+          Actions:
+            - Name: 'InfrastructureInHub'
+              Namespace: InfrastructureInHub
+              ActionTypeId:
+                Category: Deploy
+                Owner: AWS
+                Provider: CloudFormation
+                Version: '1'
+              Configuration:
+                ActionMode: REPLACE_ON_FAILURE
+                Capabilities: CAPABILITY_NAMED_IAM
+                ParameterOverrides: !Sub |
+                  {
+                    "ParamBucketName": "#{AdministerRegionalBucketHubOutputs.BucketName}"
+                    , "ParamBucketPrefix": "${ParamBucketPrefix}"
+                    , "ParamPipelineName": "${ParamPipelineName}"
+                    , "ParamSnsTopicArn": "#{NotificationsOutputs.SnsTopicArn}"
+                  }
+                RoleArn: !GetAtt CloudFormationDeployActionRole.Arn
+                StackName: !Sub '${ParamPipelineName}Infrastructure'
+                TemplateConfiguration: 'GitHubSource::pipeline/resource_tags.json'
+                TemplatePath: 'GitHubSource::infrastructure/tao-of-the-day.yml'
+              InputArtifacts:
+                - Name: 'GitHubSource'
+              Region: @@aws-region-hub@@
+              RunOrder: 1
+            - Name: 'DeployServices'
+              ActionTypeId:
+                Category: Build
+                Owner: AWS
+                Version: '1'
+                Provider: CodeBuild
+              Configuration:
+                ProjectName: !Ref CodeBuildServicesProject
+              InputArtifacts:
+                - Name: 'GitHubSource'
+              RunOrder: 2
+            - Name: 'DeployWebsite'
+              ActionTypeId:
+                Category: Build
+                Owner: AWS
+                Provider: CodeBuild
+                Version: '1'
+              Configuration:
+                EnvironmentVariables: |
+                  [
+                    {
+                      "name": "WEBSITE_BUCKET",
+                      "type": "PLAINTEXT",
+                      "value": "#{InfrastructureInHub.WebsiteBucketName}"
+                    },
+                    {
+                      "name": "REACT_APP_APPSYNC_ENDPOINT",
+                      "type": "PLAINTEXT",
+                      "value": "#{InfrastructureInHub.AppSyncEndpoint}"
+                    },
+                    {
+                      "name": "REACT_APP_APPSYNC_REGION",
+                      "type": "PLAINTEXT",
+                      "value": "#{InfrastructureInHub.AppSyncRegion}"
+                    },
+                    {
+                      "name": "REACT_APP_APPSYNC_APIKEY",
+                      "type": "PLAINTEXT",
+                      "value": "#{InfrastructureInHub.AppSyncApiKey}"
+                    }
+                  ]
+                ProjectName: !Ref CodeBuildWebsiteProject
+              InputArtifacts:
+                - Name: 'GitHubSource'
+              RunOrder: 2
+            - Name: 'Seed'
+              ActionTypeId:
+                Category: Build
+                Owner: AWS
+                Provider: CodeBuild
+                Version: '1'
+              Configuration:
+                EnvironmentVariables: |
+                  [
+                    {
+                      "name": "TABLE_NAME",
+                      "type": "PLAINTEXT",
+                      "value": "#{InfrastructureInHub.QuotesTableName}"
+                    }
+                  ]
+                ProjectName: !Ref CodeBuildSeedProject
+              InputArtifacts:
+                - Name: 'GitHubSource'
+              RunOrder: 3
+
+  CodeBuildValidationRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: [codebuild.amazonaws.com]
+            Action: ['sts:AssumeRole']
+      Path: /
+      Policies:
+        - PolicyName: codebuild-service
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'cloudformation:*'
+                  - 'iam:*'
+                  - 'logs:*'
+                Resource: ['*']
+      RoleName: !Sub '${ParamPipelineName}Validation'
+
+  CodeBuildValidationProject:
+    Type: 'AWS::CodeBuild::Project'
+    Properties:
+      Artifacts:
+        Packaging: ZIP
+        Type: CODEPIPELINE
+      Description: Validate CloudFormation templates before deployment
+      Environment:
+        ComputeType: BUILD_GENERAL1_SMALL
+        EnvironmentVariables:
+          - Name: BUCKET_PREFIX
+            Type: PLAINTEXT #  PARAMETER_STORE | PLAINTEXT | SECRETS_MANAGER
+            Value: !Ref ParamBucketPrefix
+          - Name: BUCKET_SPOKE_REGIONS
+            Type: PLAINTEXT #  PARAMETER_STORE | PLAINTEXT | SECRETS_MANAGER
+            Value: !Ref ParamBucketSpokeRegions
+          - Name: BUCKET_SUFFIX
+            Type: PLAINTEXT #  PARAMETER_STORE | PLAINTEXT | SECRETS_MANAGER
+            Value: !Ref ParamBucketSuffix
+          - Name: KMSKEY_ALIAS
+            Type: PLAINTEXT
+            Value: !Sub 'alias/${ParamBucketPrefix}'
+        Image: aws/codebuild/standard:4.0
+        PrivilegedMode: false
+        Type: LINUX_CONTAINER
+      Name: !Sub '${ParamPipelineName}Validation'
+      ServiceRole: !GetAtt CodeBuildValidationRole.Arn
+      Source:
+        BuildSpec: 'pipeline/buildspec-validation.yml'
+        Type: CODEPIPELINE
+      TimeoutInMinutes: 10
+
+  CodeBuildServicesRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: [codebuild.amazonaws.com]
+            Action: ['sts:AssumeRole']
+      Path: /
+      Policies:
+        - PolicyName: codebuild-service
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Sid: 'ServerlessDeployPermissions'
+                Effect: Allow
+                Action:
+                  - 'cloudformation:*'
+                  - 'iam:*'
+                  - 'lambda:*'
+                  - 'events:*'
+                  - 'codebuild:*'
+                Resource: '*'
+              - Sid: 'S3PermissionsGranted'
+                Effect: 'Allow'
+                Action:
+                  - 's3:CreateBucket'
+                  - 's3:CreateMultipartUpload'
+                  - 's3:DeleteBucket'
+                  - 's3:DeleteBucketEncryption'
+                  - 's3:DeleteBucketOwnershipControls'
+                  - 's3:DeleteBucketPolicy'
+                  - 's3:DeleteBucketWebsite'
+                  - 's3:DescribeBucketPolicy'
+                  - 's3:GetAccountPublicAccessBlock'
+                  - 's3:GetBucket*'
+                  - 's3:GetEncryptionConfiguration'
+                  - 's3:GetObject'
+                  - 's3:List*'
+                  - 's3:PutAccelerateConfiguration'
+                  - 's3:PutBucket*'
+                  - 's3:PutEncryptionConfiguration'
+                  - 's3:PutObject*'
+                  - 's3:SetBucketEncryption'
+                Resource: '*'
+              - Sid: 'CloudWatchLogsPermissionsGranted'
+                Effect: 'Allow'
+                Action:
+                  - 'logs:CreateLogGroup'
+                  - 'logs:CreateLogStream'
+                  - 'logs:DeleteLogGroup'
+                  - 'logs:DeleteLogStream'
+                  - 'logs:DescribeLogGroups'
+                  - 'logs:PutLogEvents'
+                Resource: '*'
+              - Sid: 'KMSPermissionsGranted'
+                Effect: Allow
+                Action:
+                  - 'kms:Decrypt'
+                  - 'kms:DescribeKey'
+                  - 'kms:Encrypt'
+                  - 'kms:GenerateDataKey*'
+                  - 'kms:ListAliases'
+                  - 'kms:ReEncrypt*'
+                Resource:
+                  - !Sub 'arn:aws:kms:${AWS::Region}:${AWS::AccountId}:*'
+      RoleName: !Sub '${ParamPipelineName}Services'
+
+  CodeBuildServicesProject:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Artifacts:
+        Packaging: ZIP
+        Type: CODEPIPELINE
+      Description: Deploy Services
+      Environment:
+        ComputeType: BUILD_GENERAL1_SMALL
+        EnvironmentVariables:
+          - Name: AWS_REGION
+            Type: PLAINTEXT #  PARAMETER_STORE | PLAINTEXT | SECRETS_MANAGER
+            Value: !Ref AWS::Region
+        Image: aws/codebuild/standard:4.0
+        PrivilegedMode: true
+        Type: LINUX_CONTAINER
+      Name: !Sub '${ParamPipelineName}Services'
+      ServiceRole: !GetAtt CodeBuildServicesRole.Arn
+      Source:
+        BuildSpec: 'pipeline/buildspec-services.yml'
+        Type: CODEPIPELINE
+      TimeoutInMinutes: 10
+      Cache:
+        Type: LOCAL
+        Modes:
+          - LOCAL_CUSTOM_CACHE
+          - LOCAL_SOURCE_CACHE
+
+  CodeBuildWebsiteRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: [codebuild.amazonaws.com]
+            Action: ['sts:AssumeRole']
+      Path: /
+      Policies:
+        - PolicyName: codebuild-service
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Sid: 'S3PermissionsGranted'
+                Effect: 'Allow'
+                Action:
+                  - 's3:CreateMultipartUpload'
+                  - 's3:GetObject'
+                  - 's3:PutObject*'
+                  - 's3:List*'
+                Resource: '*'
+              - Sid: 'CloudWatchLogsPermissionsGranted'
+                Effect: 'Allow'
+                Action:
+                  - 'logs:CreateLogGroup'
+                  - 'logs:CreateLogStream'
+                  - 'logs:DeleteLogGroup'
+                  - 'logs:DeleteLogStream'
+                  - 'logs:DescribeLogGroups'
+                  - 'logs:PutLogEvents'
+                Resource: '*'
+              - Sid: 'KMSPermissionsGranted'
+                Effect: Allow
+                Action:
+                  - 'kms:Decrypt'
+                  - 'kms:DescribeKey'
+                  - 'kms:Encrypt'
+                  - 'kms:GenerateDataKey*'
+                  - 'kms:ListAliases'
+                  - 'kms:ReEncrypt*'
+                Resource:
+                  - !Sub 'arn:aws:kms:${AWS::Region}:${AWS::AccountId}:*'
+      RoleName: !Sub '${ParamPipelineName}Website'
+
+  CodeBuildWebsiteProject:
+    Type: 'AWS::CodeBuild::Project'
+    Properties:
+      Artifacts:
+        Packaging: ZIP
+        Type: CODEPIPELINE
+      Description: Deploy the Website
+      Environment:
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: aws/codebuild/standard:4.0
+        PrivilegedMode: false
+        Type: LINUX_CONTAINER
+      Name: !Sub '${ParamPipelineName}Website'
+      ServiceRole: !GetAtt CodeBuildWebsiteRole.Arn
+      Source:
+        BuildSpec: 'pipeline/buildspec-website.yml'
+        Type: CODEPIPELINE
+      TimeoutInMinutes: 10
+
+  CodeBuildSeedRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: [codebuild.amazonaws.com]
+            Action: ['sts:AssumeRole']
+      Path: /
+      Policies:
+        - PolicyName: codebuild-service
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Sid: 'DynamoDbGranted'
+                Effect: 'Allow'
+                Action:
+                  - 'dynamodb:putItem'
+                Resource: '*'
+              - Sid: 'S3PermissionsGranted'
+                Effect: 'Allow'
+                Action:
+                  - 's3:CreateMultipartUpload'
+                  - 's3:GetObject'
+                  - 's3:PutObject*'
+                  - 's3:List*'
+                Resource: '*'
+              - Sid: 'CloudWatchLogsPermissionsGranted'
+                Effect: 'Allow'
+                Action:
+                  - 'logs:CreateLogGroup'
+                  - 'logs:CreateLogStream'
+                  - 'logs:DeleteLogGroup'
+                  - 'logs:DeleteLogStream'
+                  - 'logs:DescribeLogGroups'
+                  - 'logs:PutLogEvents'
+                Resource: '*'
+              - Sid: 'KMSPermissionsGranted'
+                Effect: Allow
+                Action:
+                  - 'kms:Decrypt'
+                  - 'kms:DescribeKey'
+                  - 'kms:Encrypt'
+                  - 'kms:GenerateDataKey*'
+                  - 'kms:ListAliases'
+                  - 'kms:ReEncrypt*'
+                Resource:
+                  - !Sub 'arn:aws:kms:${AWS::Region}:${AWS::AccountId}:*'
+      RoleName: !Sub '${ParamPipelineName}Seed'
+
+  CodeBuildSeedProject:
+    Type: 'AWS::CodeBuild::Project'
+    Properties:
+      Artifacts:
+        Packaging: ZIP
+        Type: CODEPIPELINE
+      Description: Seed the DynamoDB table
+      Environment:
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: aws/codebuild/standard:4.0
+        PrivilegedMode: false
+        Type: LINUX_CONTAINER
+      Name: !Sub '${ParamPipelineName}Seed'
+      ServiceRole: !GetAtt CodeBuildSeedRole.Arn
+      Source:
+        BuildSpec: 'pipeline/buildspec-seed.yml'
+        Type: CODEPIPELINE
+      TimeoutInMinutes: 10
+
+Outputs:
+  CloudFormationDeployActionRoleName:
+    Value: !Ref CloudFormationDeployActionRole
+  CloudFormationDeployActionRoleArn:
+    Value: !GetAtt CloudFormationDeployActionRole.Arn
+  CloudFormationDeployActionRoleRoleId:
+    Value: !GetAtt CloudFormationDeployActionRole.RoleId
+  CodePipelineRoleName:
+    Value: !Ref CodePipelineRole
+  CodePipelineRoleArn:
+    Value: !GetAtt CodePipelineRole.Arn
+  CodePipelineRoleRoleId:
+    Value: !GetAtt CodePipelineRole.RoleId
+  CodePipelineWebhookName:
+    Value: !Ref CodePipelineWebhook
+  CodePipelineWebhookUrl:
+    Value: !GetAtt CodePipelineWebhook.Url
+  CodePipelineName:
+    Value: !Ref CodePipeline
+  CodeBuildValidationRoleName:
+    Value: !Ref CodeBuildValidationRole
+  CodeBuildValidationRoleArn:
+    Value: !GetAtt CodeBuildValidationRole.Arn
+  CodeBuildValidationRoleRoleId:
+    Value: !GetAtt CodeBuildValidationRole.RoleId
+  CodeBuildValidationProjectName:
+    Value: !Ref CodeBuildValidationProject
+  CodeBuildValidationProjectArn:
+    Value: !GetAtt CodeBuildValidationProject.Arn
+  CodeBuildServicesRoleName:
+    Value: !Ref CodeBuildServicesRole
+  CodeBuildServicesRoleArn:
+    Value: !GetAtt CodeBuildServicesRole.Arn
+  CodeBuildServicesRoleRoleId:
+    Value: !GetAtt CodeBuildServicesRole.RoleId
+  CodeBuildServicesProjectName:
+    Value: !Ref CodeBuildServicesProject
+  CodeBuildServicesProjectArn:
+    Value: !GetAtt CodeBuildServicesProject.Arn

@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter16" },
+  "Title": { "S": "Sixteen" },
+  "Content": {
+    "S": "Empty yourself of everything.\nLet the mind become still.\nThe ten thousand things rise and fall while the Self watches their return.\nThey grow and flourish and then return to the source.\nReturning to the source is stillness, which is the way of nature.\nThe way of nature is unchanging.\nKnowing constancy is insight.\nNot knowing constancy leads to disaster.\nKnowing constancy, the mind is open.\nWith an open mind, you will be openhearted.\nBeing openhearted, you will act royally.\nBeing royal, you will attain the divine.\nBeing divine, you will be at one with the Tao.\nBeing at one with the Tao is eternal.\nAnd though the body dies, the Tao will never pass away."
+  },
+  "Type": { "S": "QUOTE" }
+}

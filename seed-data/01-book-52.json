@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter52" },
+  "Title": { "S": "Fifty Two" },
+  "Content": {
+    "S": "The beginning of the universe\nIs the mother of all things.\nKnowing the mother, one also knows the sons.\nKnowing the sons, yet remaining in touch with the mother,\nBrings freedom from the fear of death.\n\nKeep your mouth shut,\nGuard the senses,\nAnd life is ever full.\nOpen your mouth,\nAlways be busy,\nAnd life is beyond hope.\n\nSeeing the small is insight;\nYielding to force is strength.\nUsing the outer light, return to insight,\nAnd in this way be saved from harm.\nThis is learning constancy."
+  },
+  "Type": { "S": "QUOTE" }
+}

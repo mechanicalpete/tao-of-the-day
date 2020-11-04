@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#35" },
+  "Title": { "S": "Thirty Five" },
+  "Content": {
+    "S": "All men will come to him who keeps to the one,\nFor there lie rest and happiness and peace.\n\nPassersby may stop for music and good food,\nBut a description of the Tao\nSeems without substance or flavor.\nIt cannot be seen, it cannot be heard,\nAnd yet it cannot be exhausted."
+  },
+  "Type": { "S": "QUOTE" }
+}

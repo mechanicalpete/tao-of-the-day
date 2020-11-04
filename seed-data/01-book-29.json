@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter29" },
+  "Title": { "S": "Twenty Nine" },
+  "Content": {
+    "S": "Do you think you can take over the universe and improve it?\nI do not believe it can be done.\n\nThe universe is sacred.\nYou cannot improve it.\nIf you try to change it, you will ruin it.\nIf you try to hold it, you will lose it.\n\nSo sometimes things are ahead and sometimes they are behind;\nSometimes breathing is hard, sometimes it comes easily;\nSometimes there is strength and sometimes weakness;\nSometimes one is up and sometimes down.\n\nTherefore the sage avoids extremes, excesses, and complacency."
+  },
+  "Type": { "S": "QUOTE" }
+}

@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter69" },
+  "Title": { "S": "Sixty Nine" },
+  "Content": {
+    "S": "There is a saying among soldiers:\nI dare not make the first move but would rather play the guest;\nI dare not advance and inch but would rather withdraw a foot.\n\nThis is called marching without appearing to move,\nRolling up your sleeves without showing your arm,\nCapturing the enemy without attacking,\nBeing armed without weapons.\n\nThere is no greater catastrophe than underestimating the enemy.\nBy underestimating the enemy, I almost lost what I value.\n\nTherefore when the battle is joined,\nThe underdog will win."
+  },
+  "Type": { "S": "QUOTE" }
+}

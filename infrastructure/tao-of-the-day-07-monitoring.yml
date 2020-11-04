@@ -1,0 +1,188 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  ParamBucketName:
+    Type: String
+  ParamPipelineName:
+    Type: String
+  ParamGraphQlApiId:
+    Type: String
+  ParamSnsTopicArn:
+    Type: String
+
+Resources:
+
+  # | Namespace    | Metrics                        | Unit        | Statistic | Dimension                             | Notes |
+  # | ------------ | ------------------------------ | ----------- | --------- | ------------------------------------- | ----- |
+  # | AWS/Lambda   | Errors                         | Count       | Minimum   | FunctionName                          |       |
+  # | AWS/Lambda   | Duration                       |             | Average   | FunctionName                          |       |
+  # | AWS/Lambda   | Invocations                    |             | Sum       | FunctionName                          |       |
+  # | AWS/Lambda   | ConcurrentExecutions           |             | Maximum   | FunctionName                          |       |
+  # | AWS/AppSync  | 4XX                            | Count       | Sum       | GraphQLAPIId                          |       |
+  # | AWS/AppSync  | 5XX                            | Count       | Sum       | GraphQLAPIId                          |       |
+  # | AWS/AppSync  | Latency                        | Millisecond | Average   | GraphQLAPIId                          |       |
+  # | AWS/DynamoDB | ConditionalCheckFailedRequests | Count       | sum       | TableName                             |       |
+  # | AWS/DynamoDB | ReadThrottleEvents             | Count       | Sum       | TableName \| GlobalSecondaryIndexName |       |
+  # | AWS/DynamoDB | WriteThrottleEvents            | Count       | Sum       | TableName \| GlobalSecondaryIndexName |       |
+  # | AWS/DynamoDB | ThrottledRequests              | Count       | Sum       | TableName \| Operation                |       |
+  # | AWS/DynamoDB | UserErrors                     | Count       | Sum       | (na)                                  |       |
+
+  LambdaErrorAlarm:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      Parameters:
+        ParamPipelineName: !Ref ParamPipelineName
+        ParamAlarmNameSuffix: 'LambdaErrorAlarm'
+        ParamMetricNamespace: 'AWS/Lambda'
+        ParamMetricName: 'Errors'
+        ParamComparisonOperator: 'GreaterThanOrEqualToThreshold'
+        ParamDimensionName: 'FunctionName'
+        ParamDimensionValue: !Sub '${ParamPipelineName}-dev-SelectDailyQuote'
+        ParamStatistic: 'Minimum'
+        ParamThreshold: 1
+        ParamTreatMissingData: breaching
+        ParamSnsTopicArn: !Ref ParamSnsTopicArn
+      TemplateURL: !Sub 'https://${ParamBucketName}.s3-@@aws-region-hub@@.amazonaws.com/infrastructure/tao-of-the-day-07-monitoring-alarm.yml'
+      TimeoutInMinutes: 10 # If not specified then there is no timeout.
+
+  LambdaDurationAlarm:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      Parameters:
+        ParamPipelineName: !Ref ParamPipelineName
+        ParamAlarmNameSuffix: 'LambdaDurationErrorAlarm'
+        ParamMetricNamespace: 'AWS/Lambda'
+        ParamMetricName: 'Duration'
+        ParamComparisonOperator: 'GreaterThanOrEqualToThreshold'
+        ParamDimensionName: 'FunctionName'
+        ParamDimensionValue: !Sub '${ParamPipelineName}-dev-SelectDailyQuote'
+        ParamStatistic: 'Average'
+        ParamThreshold: 300
+        ParamTreatMissingData: breaching
+        ParamSnsTopicArn: !Ref ParamSnsTopicArn
+      TemplateURL: !Sub 'https://${ParamBucketName}.s3-@@aws-region-hub@@.amazonaws.com/infrastructure/tao-of-the-day-07-monitoring-alarm.yml'
+      TimeoutInMinutes: 10 # If not specified then there is no timeout.
+
+  LambdaInvocationsAlarm:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      Parameters:
+        ParamPipelineName: !Ref ParamPipelineName
+        ParamAlarmNameSuffix: 'LambdaInvocationsAlarm'
+        ParamMetricNamespace: 'AWS/Lambda'
+        ParamMetricName: 'Invocations'
+        ParamComparisonOperator: 'GreaterThanThreshold'
+        ParamDimensionName: 'FunctionName'
+        ParamDimensionValue: !Sub '${ParamPipelineName}-dev-SelectDailyQuote'
+        ParamStatistic: 'Sum'
+        ParamThreshold: 1
+        ParamTreatMissingData: breaching
+        ParamSnsTopicArn: !Ref ParamSnsTopicArn
+      TemplateURL: !Sub 'https://${ParamBucketName}.s3-@@aws-region-hub@@.amazonaws.com/infrastructure/tao-of-the-day-07-monitoring-alarm.yml'
+      TimeoutInMinutes: 10 # If not specified then there is no timeout.
+
+  LambdaConcurrentExecutionsAlarm:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      Parameters:
+        ParamPipelineName: !Ref ParamPipelineName
+        ParamAlarmNameSuffix: 'LambdaConcurrentExecutionsAlarm'
+        ParamMetricNamespace: 'AWS/Lambda'
+        ParamMetricName: 'ConcurrentExecutions'
+        ParamComparisonOperator: 'GreaterThanThreshold'
+        ParamDimensionName: 'FunctionName'
+        ParamDimensionValue: !Sub '${ParamPipelineName}-dev-SelectDailyQuote'
+        ParamStatistic: 'Maximum'
+        ParamThreshold: 1
+        ParamTreatMissingData: breaching
+        ParamSnsTopicArn: !Ref ParamSnsTopicArn
+      TemplateURL: !Sub 'https://${ParamBucketName}.s3-@@aws-region-hub@@.amazonaws.com/infrastructure/tao-of-the-day-07-monitoring-alarm.yml'
+      TimeoutInMinutes: 10 # If not specified then there is no timeout.
+
+  AppSync4xxErrorAlarm:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      Parameters:
+        ParamPipelineName: !Ref ParamPipelineName
+        ParamAlarmNameSuffix: 'AppSync4xxErrorAlarm'
+        ParamMetricNamespace: 'AWS/AppSync'
+        ParamMetricName: '4XX'
+        ParamComparisonOperator: 'GreaterThanOrEqualToThreshold'
+        ParamDimensionName: 'GraphQLAPIId'
+        ParamDimensionValue: !Ref ParamGraphQlApiId
+        ParamStatistic: 'Sum'
+        ParamThreshold: 1
+        ParamTreatMissingData: notBreaching
+        ParamSnsTopicArn: !Ref ParamSnsTopicArn
+      TemplateURL: !Sub 'https://${ParamBucketName}.s3-@@aws-region-hub@@.amazonaws.com/infrastructure/tao-of-the-day-07-monitoring-alarm.yml'
+      TimeoutInMinutes: 10 # If not specified then there is no timeout.
+
+  AppSync5xxErrorAlarm:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      Parameters:
+        ParamPipelineName: !Ref ParamPipelineName
+        ParamAlarmNameSuffix: 'AppSync5xxErrorAlarm'
+        ParamMetricNamespace: 'AWS/AppSync'
+        ParamMetricName: '5XX'
+        ParamComparisonOperator: 'GreaterThanOrEqualToThreshold'
+        ParamDimensionName: 'GraphQLAPIId'
+        ParamDimensionValue: !Ref ParamGraphQlApiId
+        ParamStatistic: 'Sum'
+        ParamThreshold: 1
+        ParamTreatMissingData: notBreaching
+        ParamSnsTopicArn: !Ref ParamSnsTopicArn
+      TemplateURL: !Sub 'https://${ParamBucketName}.s3-@@aws-region-hub@@.amazonaws.com/infrastructure/tao-of-the-day-07-monitoring-alarm.yml'
+      TimeoutInMinutes: 10 # If not specified then there is no timeout.
+
+  AppSyncLatencyErrorAlarm:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      Parameters:
+        ParamPipelineName: !Ref ParamPipelineName
+        ParamAlarmNameSuffix: 'AppSyncLatencyErrorAlarm'
+        ParamMetricNamespace: 'AWS/AppSync'
+        ParamMetricName: 'Latency'
+        ParamComparisonOperator: 'GreaterThanOrEqualToThreshold'
+        ParamDimensionName: 'GraphQLAPIId'
+        ParamDimensionValue: !Ref ParamGraphQlApiId
+        ParamStatistic: 'Average'
+        ParamThreshold: 100
+        ParamTreatMissingData: missing
+        ParamSnsTopicArn: !Ref ParamSnsTopicArn
+      TemplateURL: !Sub 'https://${ParamBucketName}.s3-@@aws-region-hub@@.amazonaws.com/infrastructure/tao-of-the-day-07-monitoring-alarm.yml'
+      TimeoutInMinutes: 10 # If not specified then there is no timeout.
+
+  DynamoDbUserErrorsAlarm:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      Parameters:
+        ParamPipelineName: !Ref ParamPipelineName
+        ParamAlarmNameSuffix: 'DynamoDbUserErrorsAlarm'
+        ParamMetricNamespace: 'AWS/DynamoDB'
+        ParamMetricName: 'UserErrors'
+        ParamComparisonOperator: 'GreaterThanOrEqualToThreshold'
+        ParamStatistic: 'Sum'
+        ParamThreshold: 1
+        ParamTreatMissingData: notBreaching
+        ParamSnsTopicArn: !Ref ParamSnsTopicArn
+      TemplateURL: !Sub 'https://${ParamBucketName}.s3-@@aws-region-hub@@.amazonaws.com/infrastructure/tao-of-the-day-07-monitoring-alarm.yml'
+      TimeoutInMinutes: 10 # If not specified then there is no timeout.
+
+  Dashboard:
+    DependsOn:
+      - AppSync4xxErrorAlarm
+      - AppSync5xxErrorAlarm
+      - AppSyncLatencyErrorAlarm
+      - DynamoDbUserErrorsAlarm
+      - LambdaConcurrentExecutionsAlarm
+      - LambdaDurationAlarm
+      - LambdaErrorAlarm
+      - LambdaInvocationsAlarm
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      Parameters:
+        ParamPipelineName: !Ref ParamPipelineName
+        ParamGraphQlApiId: !Ref ParamGraphQlApiId
+      TemplateURL: !Sub 'https://${ParamBucketName}.s3-@@aws-region-hub@@.amazonaws.com/infrastructure/tao-of-the-day-07-monitoring-dashboard.yml'
+      TimeoutInMinutes: 10 # If not specified then there is no timeout.

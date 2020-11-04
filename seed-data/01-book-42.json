@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter42" },
+  "Title": { "S": "Forty Two" },
+  "Content": {
+    "S": "The Tao begot one.\nOne begot two.\nTwo begot three.\nAnd three begot the ten thousand things.\n\nThe ten thousand things carry yin and embrace yang.\nThey achieve harmony by combining these forces.\n\nMen hate to be \"orphaned,\" \"widowed,\" or \"worthless,\"\nBut this is how kings and lords describe themselves.\n\nFor one gains by losing\nAnd loses by gaining.\n\nWhat others teach, I also teach; that is:\n\"A violent man will die a violent death!\"\nThis will be the essence of my teaching."
+  },
+  "Type": { "S": "QUOTE" }
+}

@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter51" },
+  "Title": { "S": "Fifty One" },
+  "Content": {
+    "S": "All things arise from Tao.\nThey are nourished by Virtue.\nThey are formed from matter.\nThey are shaped by environment.\nThus the ten thousand things all respect Tao and honor Virtue.\nRespect of Tao and honor of Virtue are not demanded,\nBut they are in the nature of things.\n\nTherefore all things arise from Tao.\nBy Virtue they are nourished,\nDeveloped, cared for,\nSheltered, comforted,\nGrown, and protected.\nCreating without claiming,\nDoing without taking credit,\nGuiding without interfering,\nThis is Primal Virtue."
+  },
+  "Type": { "S": "QUOTE" }
+}

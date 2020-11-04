@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter20" },
+  "Title": { "S": "Twenty" },
+  "Content": {
+    "S": "Give up learning, and put an end to your troubles.\n\nIs there a difference between yes and no?\nIs there a difference between good and evil?\nMust I fear what others fear? What nonsense!\nOther people are contented, enjoying the sacrificial feast of the ox.\nIn spring some go to the park, and climb the terrace,\nBut I alone am drifting, not knowing where I am.\nLike a newborn babe before it learns to smile,\nI am alone, without a place to go.\n\nOthers have more than they need, but I alone have nothing.\nI am a fool. Oh, yes! I am confused.\nOthers are clear and bright,\nBut I alone am dim and weak.\nOthers are sharp and clever,\nBut I alone am dull and stupid.\nOh, I drift like the waves of the sea,\nWithout direction, like the restless wind.\n\nEveryone else is busy,\nBut I alone am aimless and depressed.\nI am different.\nI am nourished by the great mother."
+  },
+  "Type": { "S": "QUOTE" }
+}

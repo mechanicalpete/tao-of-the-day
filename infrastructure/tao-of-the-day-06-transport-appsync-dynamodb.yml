@@ -1,0 +1,83 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  ParamAppSyncApiId:
+    Type: String
+  ParamAppSyncApiName:
+    Type: String
+  ParamDynamoDbTableName:
+    Type: String
+
+Resources:
+
+  AppSyncApiDataSourceIamRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: [appsync.amazonaws.com]
+            Action: ['sts:AssumeRole']
+      Path: /
+      Policies:
+        - PolicyName: DynamoDB
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'dynamodb:BatchGetItem'
+                  - 'dynamodb:GetItem'
+                  - 'dynamodb:Query'
+                  - 'dynamodb:Scan'
+                Resource:
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${ParamDynamoDbTableName}'
+      RoleName: !Sub '${ParamAppSyncApiName}${ParamDynamoDbTableName}Access'
+
+  AppSyncApiDataSource:
+    Type: AWS::AppSync::DataSource
+    Properties: 
+      ApiId: !Ref ParamAppSyncApiId
+      DynamoDBConfig:
+        AwsRegion: !Ref AWS::Region
+        # DeltaSyncConfig:
+        #   BaseTableTTL: String
+        #   DeltaSyncTableName: String
+        #   DeltaSyncTableTTL: String
+        TableName: !Ref ParamDynamoDbTableName
+        UseCallerCredentials: false
+        Versioned: false
+      # ElasticsearchConfig:
+      #   AwsRegion: String
+      #   Endpoint: String
+      # HttpConfig:
+      #   AuthorizationConfig:
+      #     AuthorizationType: AWS_IAM
+      #     AwsIamConfig:
+      #       SigningRegion: String
+      #       SigningServiceName: String
+      #   Endpoint: String
+      # LambdaConfig:
+      #   LambdaFunctionArn: String
+      Name: !Sub '${ParamAppSyncApiName}_DataSource_${ParamDynamoDbTableName}'
+      # RelationalDatabaseConfig:
+      #   RdsHttpEndpointConfig:
+      #     AwsRegion: String
+      #     AwsSecretStoreArn: String
+      #     DatabaseName: String
+      #     DbClusterIdentifier: String
+      #     Schema: String
+      #   RelationalDatabaseSourceType: String
+      ServiceRoleArn: !GetAtt AppSyncApiDataSourceIamRole.Arn
+      Type: AMAZON_DYNAMODB # AMAZON_DYNAMODB | AMAZON_ELASTICSEARCH | AWS_LAMBDA | NONE | HTTP | RELATIONAL_DATABASE
+
+Outputs:
+
+  AppSyncApiDataSourceArn:
+    Value: !GetAtt AppSyncApiDataSource.DataSourceArn
+  AppSyncApiDataSourceName:
+    Value: !GetAtt AppSyncApiDataSource.Name
+  AppSyncApiDataSourceIamRoleArn:
+    Value: !GetAtt AppSyncApiDataSourceIamRole.Arn

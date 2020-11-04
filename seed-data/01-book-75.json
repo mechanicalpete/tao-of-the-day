@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter75" },
+  "Title": { "S": "Seventy Five" },
+  "Content": {
+    "S": "Why are the people starving?\nBecause the rulers eat up the money in taxes.\nTherefore the people are starving.\n\nWhy are the people rebellious?\nBecause the rulers interfere too much.\nTherefore they are rebellious.\n\nWhy do the people think so little of death?\nBecause the rulers demand too much of life.\nTherefore the people take death lightly.\n\nHaving little to live on, one knows better than to value life too much."
+  },
+  "Type": { "S": "QUOTE" }
+}

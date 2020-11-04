@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter37" },
+  "Title": { "S": "Thirty Seven" },
+  "Content": {
+    "S": "Tao abides in non-action,\nYet nothing is left undone.\nIf kings and lords observed this,\nThe ten thousand things would develop naturally.\nIf they still desired to act,\nThey would return to the simplicity of formless substance.\nWithout form there is no desire.\nWithout desire there is tranquility.\nAnd in this way all things would be at peace."
+  },
+  "Type": { "S": "QUOTE" }
+}

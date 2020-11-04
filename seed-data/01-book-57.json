@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter57" },
+  "Title": { "S": "Fifty Seven" },
+  "Content": {
+    "S": "Rule a nation with justice.\nWage war with surprise moves.\nBecome master of the universe without striving.\nHow do I know that this is so?\nBecause of this!\n\nThe more laws and restrictions there are,\nThe poorer people become.\nThe sharper men's weapons,\nThe more trouble in the land.\nThe more ingenious and clever men are,\nThe more strange things happen.\nThe more rules and regulations,\nThe more thieves and robbers.\n\nTherefore the sage says:\nI take no action and people are reformed.\nI enjoy peace and people become honest.\nI do nothing and people become rich.\nI have no desires and people return to the good and simple life."
+  },
+  "Type": { "S": "QUOTE" }
+}

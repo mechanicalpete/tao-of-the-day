@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter65" },
+  "Title": { "S": "Sixty Five" },
+  "Content": {
+    "S": "In the beginning those who knew the Tao did not try to enlighten others,\nBut kept it hidden.\nWhy is it so hard to rule?\nBecause people are so clever.\nRulers who try to use cleverness\nCheat the country.\nThose who rule without cleverness\nAre a blessing to the land.\nThese are the two alternatives.\nUnderstanding these is Primal Virtue.\nPrimal Virtue is deep and far.\nIt leads all things back\nToward the great oneness."
+  },
+  "Type": { "S": "QUOTE" }
+}

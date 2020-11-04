@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter79" },
+  "Title": { "S": "Seventy Nine" },
+  "Content": {
+    "S": "After a bitter quarrel, some resentment must remain.\nWhat can one do about it?\nTherefore the sage keeps his half of the bargain\nBut does not exact his due.\nA man of Virtue performs his part,\nBut a man without Virtue requires others to fulfill their obligations.\nThe Tao of heaven is impartial.\nIt stays with good men all the time."
+  },
+  "Type": { "S": "QUOTE" }
+}

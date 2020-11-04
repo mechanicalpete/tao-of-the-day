@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter50" },
+  "Title": { "S": "Fifty" },
+  "Content": {
+    "S": "Between birth and death,\nThree in ten are followers of life,\nThree in ten are followers of death,\nAnd men just passing from birth to death also number three in ten.\nWhy is this so?\nBecause they live their lives on the gross level.\n\nHe who knows how to live can walk abroad\nWithout fear of rhinoceros or tiger.\nHe will not be wounded in battle.\nFor in him rhinoceroses can find no place to thrust their horn,\nTigers no place to use their claws,\nAnd weapons no place to pierce.\nWhy is this so?\nBecause he has no place for death to enter."
+  },
+  "Type": { "S": "QUOTE" }
+}

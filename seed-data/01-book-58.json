@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter58" },
+  "Title": { "S": "Fifty Eight" },
+  "Content": {
+    "S": "When the country is ruled with a light hand\nThe people are simple.\nWhen the country is ruled with severity,\nThe people are cunning.\n\nHappiness is rooted in misery.\nMisery lurks beneath happiness.\nWho knows what the future holds?\nThere is no honesty.\nHonesty becomes dishonest.\nGoodness becomes witchcraft.\nMan's bewitchment lasts for a long time.\n\nTherefore the sage is sharp but not cutting,\nPointed but not piercing,\nStraightforward but not unrestrained,\nBrilliant but not blinding."
+  },
+  "Type": { "S": "QUOTE" }
+}

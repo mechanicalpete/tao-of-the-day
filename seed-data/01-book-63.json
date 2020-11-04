@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter63" },
+  "Title": { "S": "Sixty Three" },
+  "Content": {
+    "S": "Practice non-action.\nWork without doing.\nTaste the tasteless.\nMagnify the small, increase the few.\nReward bitterness with care.\n\nSee simplicity in the complicated.\nAchieve greatness in little things.\n\nIn the universe the difficult things are done as if they are easy.\nIn the universe great acts are made up of small deeds.\nThe sage does not attempt anything very big,\nAnd thus achieved greatness.\n\nEasy promises make for little trust.\nTaking things lightly results in great difficulty.\nBecause the sage always confronts difficulties,\nHe never experiences them."
+  },
+  "Type": { "S": "QUOTE" }
+}

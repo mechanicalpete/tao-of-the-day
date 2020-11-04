@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter55" },
+  "Title": { "S": "Fifty Five" },
+  "Content": {
+    "S": "He who is filled with Virtue is like a newborn child.\nWasps and serpents will not sting him;\nWild beasts will not pounce upon him;\nHe will not be attacked by birds of prey.\nHis bones are soft, his muscles weak,\nBut his grip is firm.\nHe has not experienced the union of man and woman, but is whole.\nHis manhood is strong.\nHe screams all day without becoming hoarse.\nThis is perfect harmony.\n\nKnowing harmony is constancy.\nKnowing constancy is enlightenment.\n\nIt is not wise to rush about.\nControlling the breath causes strain.\nIf too much energy is used, exhaustion follows.\nThis is not the way of Tao.\nWhatever is contrary to Tao will not last long."
+  },
+  "Type": { "S": "QUOTE" }
+}

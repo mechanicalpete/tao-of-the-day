@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter27" },
+  "Title": { "S": "Twenty Seven" },
+  "Content": {
+    "S": "A good walker leaves no tracks;\nA good speaker makes no slips;\nA good reckoner needs no tally.\nA good door needs no lock,\nYet no one can open it.\nGood binding requires no knots,\nYet no one can loosen it.\n\nTherefore the sage takes care of all men\nAnd abandons no one.\nHe takes care of all things\nAnd abandons nothing.\n\nThis is called \"following the light.\"\n\nWhat is a good man?\nA teacher of a bad man.\nWhat is a bad man?\nA good man's charge.\nIf the teacher is not respected,\nAnd the student not cared for,\nConfusion will arise, however clever one is.\nThis is the crux of mystery."
+  },
+  "Type": { "S": "QUOTE" }
+}

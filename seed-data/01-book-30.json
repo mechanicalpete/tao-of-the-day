@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter30" },
+  "Title": { "S": "Thirty" },
+  "Content": {
+    "S": "Whenever you advise a ruler in the way of Tao,\nCounsel him not to use force to conquer the universe.\nFor this would only cause resistance.\nThorn bushes spring up wherever the army has passed.\nLean years follow in the wake of a great war.\nJust do what needs to be done.\nNever take advantage of power.\n\nAchieve results,\nBut never glory in them.\nAchieve results,\nBut never boast.\nAchieve results,\nBut never be proud.\nAchieve results,\nBecause this is the natural way.\nAchieve results,\nBut not through violence.\n\nForce is followed by loss of strength.\nThis is not the way of Tao.\nThat which goes against the Tao comes to an early end."
+  },
+  "Type": { "S": "QUOTE" }
+}

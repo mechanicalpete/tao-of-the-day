@@ -1,0 +1,6 @@
+[
+  {
+    "ParameterKey": "ParamBucketPrefix",
+    "ParameterValue": "@@kebab-case-name@@"
+  }
+]

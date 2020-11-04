@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter22" },
+  "Title": { "S": "Twenty Two" },
+  "Content": {
+    "S": "Yield and overcome;\nBend and be straight;\nEmpty and be full;\nWear out and be new;\nHave little and gain;\nHave much and be confused.\n\nTherefore the wise embrace the one\nAnd set an example to all.\nNot putting on a display,\nThey shine forth.\nNot justifying themselves,\nThey are distinguished.\nNot boasting,\nThey receive recognition.\nNot bragging,\nThey never falter.\nThey do not quarrel,\nSo no one quarrels with them.\nTherefore the ancients say, \"Yield and overcome.\"\nIs that an empty saying?\nBe really whole,\nAnd all things will come to you.\n"
+  },
+  "Type": { "S": "QUOTE" }
+}

@@ -1,0 +1,47 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  ParamAppSyncApiId:
+    Type: String
+
+Resources:
+
+  AppSyncApiSchema:
+    Type: AWS::AppSync::GraphQLSchema
+    Properties: 
+      ApiId: !Ref ParamAppSyncApiId
+      Definition: |
+        type Quote {
+            Title: String!
+            Content: String
+        }
+
+        type BookQuote {
+            BookTitle: String!
+            BookAuthor: String!
+            QuoteTitle: String!
+            QuoteContent: String
+        }
+
+        type Query {
+            getQuote(bookId: String, quoteId: String): Quote
+            getDailyQuotes: [BookQuote]
+            getDailyQuote(bookId: String): BookQuote
+        }
+
+        type Mutation {
+        }
+
+        type Subscription {
+        }
+
+        schema {
+            query: Query
+            mutation: Mutation
+            subscription: Subscription
+        }
+
+Outputs:
+
+  AppSyncApiSchemaId:
+    Value: !Ref AppSyncApiSchema

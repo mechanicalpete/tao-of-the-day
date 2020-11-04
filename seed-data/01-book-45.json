@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter45" },
+  "Title": { "S": "Forty Five" },
+  "Content": {
+    "S": "Great accomplishment seems imperfect,\nYet it does not outlive its usefulness.\nGreat fullness seems empty,\nYet cannot be exhausted.\n\nGreat straightness seems twisted.\nGreat intelligence seems stupid.\nGreat eloquence seems awkward.\n\nMovement overcomes cold.\nStillness overcomes heat.\nStillness and tranquillity set things in order in the universe."
+  },
+  "Type": { "S": "QUOTE" }
+}

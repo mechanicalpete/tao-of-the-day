@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter11" },
+  "Title": { "S": "Eleven" },
+  "Content": {
+    "S": "Thirty spokes share the wheel's hub;\nIt is the center hole that makes it useful.\nShape clay into a vessel;\nIt is the space within that makes it useful.\nCut doors and windows for a room;\nIt is the holes which make it useful.\nTherefore benefit comes from what is there;\nUsefulness from what is not there."
+  },
+  "Type": { "S": "QUOTE" }
+}

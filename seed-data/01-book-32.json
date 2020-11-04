@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter32" },
+  "Title": { "S": "Thirty Two" },
+  "Content": {
+    "S": "The Tao is forever undefined.\nSmall though it is in the unformed state, it cannot be grasped.\nIf kings and lords could harness it,\nThe ten thousand things would come together\nAnd gentle rain fall.\nMen would need no more instruction and all things would take their course.\n\nOnce the whole is divided, the parts need names.\nThere are already enough names.\nOne must know when to stop.\nKnowing when to stop averts trouble.\nTao in the world is like a river flowing home to the sea."
+  },
+  "Type": { "S": "QUOTE" }
+}

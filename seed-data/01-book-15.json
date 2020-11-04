@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter15" },
+  "Title": { "S": "Fifteen" },
+  "Content": {
+    "S": "The ancient masters were subtle, mysterious, profound, responsive.\nThe depth of their knowledge is unfathomable.\nBecause it is unfathomable,\nAll we can do is describe their appearance.\nWatchful, like men crossing a winter stream.\nAlert, like men aware of danger.\nCourteous, like visiting guests.\nYielding like ice about to melt.\nSimple, like uncarved blocks of wood.\nHollow, like caves.\nOpaque, like muddy pools.\n\nWho can wait quietly while the mud settles?\nWho can remain still until the moment of action?\nObservers of the Tao do not seek fulfillment.\nNot seeking fulfillment, they are not swayed by desire for change."
+  },
+  "Type": { "S": "QUOTE" }
+}

@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter56" },
+  "Title": { "S": "Fifty Six" },
+  "Content": {
+    "S": "Those who know do not talk.\nThose who talk do not know.\n\nKeep your mouth closed.\nGuard your senses.\nTemper your sharpness.\nSimplify your problems.\nMask your brightness.\nBe at one with the dust of the Earth.\nThis is primal union.\n\nHe who has achieved this state\nIs unconcerned with friends and enemies,\nWith good and harm, with honor and disgrace.\nThis therefore is the highest state of man."
+  },
+  "Type": { "S": "QUOTE" }
+}

@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter08" },
+  "Title": { "S": "Eight" },
+  "Content": {
+    "S": "The highest good is like water.\nWater give life to the ten thousand things and does not strive.\nIt flows in places men reject and so is like the Tao.\n\nIn dwelling, be close to the land.\nIn meditation, go deep in the heart.\nIn dealing with others, be gentle and kind.\nIn speech, be true.\nIn ruling, be just.\nIn daily life, be competent.\nIn action, be aware of the time and the season.\n\nNo fight: No blame."
+  },
+  "Type": { "S": "QUOTE" }
+}

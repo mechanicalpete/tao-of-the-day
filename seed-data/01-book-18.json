@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter18" },
+  "Title": { "S": "Eighteen" },
+  "Content": {
+    "S": "When the great Tao is forgotten,\nKindness and morality arise.\nWhen wisdom and intelligence are born,\nThe great pretense begins.\n\nWhen there is no peace within the family,\nFilial piety and devotion arise.\nWhen the country is confused and in chaos,\nLoyal ministers appear."
+  },
+  "Type": { "S": "QUOTE" }
+}

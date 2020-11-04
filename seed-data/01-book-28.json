@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter28" },
+  "Title": { "S": "Twenty Eight" },
+  "Content": {
+    "S": "Know the strength of man,\nBut keep a woman's care!\nBe the stream of the universe!\nBeing the stream of the universe,\nEver true and unswerving,\nBecome as a little child once more.\n\nKnow the white,\nBut keep the black!\nBe an example to the world!\nBeing an example to the world,\nEver true and unwavering,\nReturn to the infinite.\n\nKnow honor,\nYet keep humility.\nBe the valley of the universe!\nBeing the valley of the universe,\nEver true and resourceful,\nReturn to the state of the uncarved block.\n\nWhen the block is carved, it becomes useful.\nWhen the sage uses it, he becomes the ruler.\nThus, \"A great tailor cuts little.\""
+  },
+  "Type": { "S": "QUOTE" }
+}

@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter54" },
+  "Title": { "S": "Fifty Four" },
+  "Content": {
+    "S": "What is firmly established cannot be uprooted.\nWhat is firmly grasped cannot slip away.\nIt will be honored from generation to generation.\n\nCultivate Virtue in your self,\nAnd Virtue will be real.\nCultivate it in the family,\nAnd Virtue will abound.\nCultivate it in the village,\nAnd Virtue will grow.\nCultivate it in the nation,\nAnd Virtue will be abundant.\nCultivate it in the universe,\nAnd Virtue will be everywhere.\n\nTherefore look at the body as body;\nLook at the family as family;\nLook at the village as village;\nLook at the nation as nation;\nLook at the universe as universe.\n\nHow do I know the universe is like this?\nBy looking!"
+  },
+  "Type": { "S": "QUOTE" }
+}

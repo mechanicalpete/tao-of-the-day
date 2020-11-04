@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter76" },
+  "Title": { "S": "Seventy Six" },
+  "Content": {
+    "S": "A man is born gentle and weak.\nAt his death he is hard and stiff.\nGreen plants are tender and filled with sap.\nAt their death they are withered and dry.\n\nTherefore the stiff and unbending is the disciple of death.\nThe gentle and yielding is the disciple of life.\n\nThus an army without flexibility never wins a battle.\nA tree that is unbending is easily broken.\n\nThe hard and strong will fall.\nThe soft and weak will overcome."
+  },
+  "Type": { "S": "QUOTE" }
+}

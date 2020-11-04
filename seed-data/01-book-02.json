@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter02" },
+  "Title": { "S": "Two" },
+  "Content": {
+    "S": "Under heaven all can see beauty as beauty only because there is ugliness.\nAll can know good as good only because there is evil.\n\nTherefore having and not having arise together.\nDifficult and easy complement each other.\nLong and short contrast each other:\nHigh and low rest upon each other;\nVoice and sound harmonize each other;\nFront and back follow one another.\n\nTherefore the sage goes about doing nothing, teaching no-talking.\nThe ten thousand things rise and fall without cease,\nCreating, yet not possessing.\nWorking, yet not taking credit.\nWork is done, then forgotten.\nTherefore it lasts forever."
+  },
+  "Type": { "S": "QUOTE" }
+}

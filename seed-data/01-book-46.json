@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter46" },
+  "Title": { "S": "Forty Six" },
+  "Content": {
+    "S": "When the Tao is present in the universe,\nThe horses haul manure.\nWhen the Tao is absent from the universe,\nWar horses are bred outside the city.\n\nThere is no greater sin than desire,\nNo greater curse than discontent,\nNo greater misfortune than wanting something for oneself.\nTherefore he who knows that enough is enough will always have enough."
+  },
+  "Type": { "S": "QUOTE" }
+}

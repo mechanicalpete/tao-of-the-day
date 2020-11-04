@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter34" },
+  "Title": { "S": "Thirty Four" },
+  "Content": {
+    "S": "The great Tao flows everywhere, both to the left and to the right.\nThe ten thousand things depend upon it; it holds nothing back.\nIt fulfills its purpose silently and makes no claim.\n\nIt nourishes the ten thousand things,\nAnd yet is not their lord.\nIt has no aim; it is very small.\n\nThe ten thousand things return to it,\nYet it is not their lord.\nIt is very great.\n\nIt does not show greatness,\nAnd is therefore truly great."
+  },
+  "Type": { "S": "QUOTE" }
+}

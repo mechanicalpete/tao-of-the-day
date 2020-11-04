@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter77" },
+  "Title": { "S": "Seventy Seven" },
+  "Content": {
+    "S": "The Tao of heaven is like the bending of a bow.\nThe high is lowered, and the low is raised.\nIf the string is too long, it is shortened;\nIf there is not enough, it is made longer.\n\nThe Tao of heaven is to take from those who have too much and give to those who do not have enough.\nMan's way is different.\nHe takes from those who do not have enough and give to those who already have too much.\nWhat man has more than enough and gives it to the world?\nOnly the man of Tao.\n\nTherefore the sage works without recognition.\nHe achieves what has to be done without dwelling on it.\nHe does not try to show his knowledge."
+  },
+  "Type": { "S": "QUOTE" }
+}

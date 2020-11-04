@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter04" },
+  "Title": { "S": "Four" },
+  "Content": {
+    "S": "The Tao is an empty vessel; it is used, but never filled.\nOh, unfathomable source of ten thousand things!\nBlunt the sharpness,\nUntangle the knot,\nSoften the glare,\nMerge with dust.\nOh, hidden deep but ever present!\nI do not know from whence it comes.\nIt is the forefather of the gods."
+  },
+  "Type": { "S": "QUOTE" }
+}

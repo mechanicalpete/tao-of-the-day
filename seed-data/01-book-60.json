@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter60" },
+  "Title": { "S": "Sixty" },
+  "Content": {
+    "S": "Ruling the country is like cooking a small fish.\nApproach the universe with Tao,\nAnd evil is not powerful,\nBut its power will not be used to harm others.\nNot only will it do no harm to others,\nBut the sage himself will also be protected.\nThey do not hurt each other,\nAnd the Virtue in each one refreshes both."
+  },
+  "Type": { "S": "QUOTE" }
+}

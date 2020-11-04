@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter68" },
+  "Title": { "S": "Sixty Eight" },
+  "Content": {
+    "S": "A good soldier is not violent.\nA good fighter is not angry.\nA good winner is not vengeful\nA good employer is humble.\nThis is known as the Virtue of not striving.\nThis is known as ability to deal with people.\nThis since ancient times has been known as the ultimate unity with heaven."
+  },
+  "Type": { "S": "QUOTE" }
+}

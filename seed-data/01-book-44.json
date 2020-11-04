@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter44" },
+  "Title": { "S": "Forty Four" },
+  "Content": {
+    "S": "Fame or self: Which matters more?\nSelf or wealth: Which is more precious?\nGain or loss: Which is more painful?\n\nHe who is attached to things will suffer much.\nHe who saves will suffer heavy loss.\nA contented man is never disappointed.\nHe who knows when to stop does not find himself in trouble.\nHe will stay forever safe."
+  },
+  "Type": { "S": "QUOTE" }
+}

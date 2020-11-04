@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "BOOK#TaoTeChing" },
+  "Title": { "S": "Tao Te Ching" },
+  "Author": { "S": "Lao Tzu" },
+  "Type": { "S": "BOOK" },
+  "GSI1PK": { "S": "BOOK" },
+  "GSI1SK": { "S": "BOOK#TaoTeChing" }
+}

@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter36" },
+  "Title": { "S": "Thirty Six" },
+  "Content": {
+    "S": "That which shrinks\nMust first expand.\nThat which fails\nMust first be strong.\nThat which is cast down\nMust first be raised.\nBefore receiving\nThere must be giving.\n\nThis is called perception of the nature of things.\nSoft and weak overcome hard and strong.\n\nFish cannot leave deep waters,\nAnd a country's weapons should not be displayed."
+  },
+  "Type": { "S": "QUOTE" }
+}

@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter19" },
+  "Title": { "S": "Nineteen" },
+  "Content": {
+    "S": "Give up sainthood, renounce wisdom,\nAnd it will be a hundred times better for everyone.\n\nGive up kindness, renounce morality,\nAnd men will rediscover filial piety and love.\n\nGive up ingenuity, renounce profit,\nAnd bandits and thieves will disappear.\n\nThese three are outward forms alone; they are not sufficient in themselves.\nIt is more important\nTo see the simplicity,\nTo realize one's true nature,\nTo cast off selfishness\nAnd temper desire."
+  },
+  "Type": { "S": "QUOTE" }
+}

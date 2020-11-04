@@ -1,0 +1,122 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  ParamBucketName:
+    Type: String
+  ParamBucketPrefix:
+    Type: String
+  ParamPipelineName:
+    Type: String
+  ParamSnsTopicArn:
+    Type: String
+
+Resources:
+
+  # Foundation:
+  #   Type: AWS::CloudFormation::Stack
+  #   Properties:
+  #     Parameters:
+  #       Key: !Ref Value
+  #     TemplateURL: !Sub 'https://${ParamBucketName}.s3-@@aws-region-hub@@.amazonaws.com/infrastructure/tao-of-the-day-01-foundation.yml'
+  #     TimeoutInMinutes: 10 # If not specified then there is no timeout.
+
+  # Network:
+  #   Type: AWS::CloudFormation::Stack
+  #   Properties:
+  #     Parameters:
+  #       Key: !Ref Value
+  #     TemplateURL: !Sub 'https://${ParamBucketName}.s3-@@aws-region-hub@@.amazonaws.com/infrastructure/tao-of-the-day-02-network.yml'
+  #     TimeoutInMinutes: 10 # If not specified then there is no timeout.
+
+  Storage:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      Parameters:
+        ParamDynamoDbQuotesTableName: !Ref ParamPipelineName
+        ParamBucketPrefix: !Ref ParamBucketPrefix
+      TemplateURL: !Sub 'https://${ParamBucketName}.s3-@@aws-region-hub@@.amazonaws.com/infrastructure/tao-of-the-day-03-storage.yml'
+      TimeoutInMinutes: 10 # If not specified then there is no timeout.
+
+  # Messaging:
+  #   Type: AWS::CloudFormation::Stack
+  #   Properties:
+  #     Parameters:
+  #       Key: !Ref Value
+  #     TemplateURL: !Sub 'https://${ParamBucketName}.s3-@@aws-region-hub@@.amazonaws.com/infrastructure/tao-of-the-day-04-messaging.yml'
+  #     TimeoutInMinutes: 10 # If not specified then there is no timeout.
+
+  # Compute:
+  #   Type: AWS::CloudFormation::Stack
+  #   Properties:
+  #     Parameters:
+  #       Key: !Ref Value
+  #     TemplateURL: !Sub 'https://${ParamBucketName}.s3-@@aws-region-hub@@.amazonaws.com/infrastructure/tao-of-the-day-05-compute.yml'
+  #     TimeoutInMinutes: 10 # If not specified then there is no timeout.
+
+  Transport:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      Parameters:
+        ParamBucketName: !Ref ParamBucketName
+        ParamPipelineName: !Ref ParamPipelineName
+        ParamWebsiteBucketName:
+          Fn::GetAtt: [Storage, Outputs.WebsiteBucketName]
+        ParamWebsiteBucketArn:
+          Fn::GetAtt: [Storage, Outputs.WebsiteBucketArn]
+        ParamWebsiteBucketRegionalDomainName:
+          Fn::GetAtt: [Storage, Outputs.WebsiteBucketRegionalDomainName]
+        ParamLogsBucketName:
+          Fn::GetAtt: [Storage, Outputs.LogsBucketName]
+        ParamLogsBucketArn:
+          Fn::GetAtt: [Storage, Outputs.LogsBucketArn]
+        ParamLogsBucketRegionalDomainName:
+          Fn::GetAtt: [Storage, Outputs.LogsBucketRegionalDomainName]
+        ParamDynamoDbQuotesTableName:
+          Fn::GetAtt: [Storage, Outputs.QuotesTableName]
+      TemplateURL: !Sub 'https://${ParamBucketName}.s3-@@aws-region-hub@@.amazonaws.com/infrastructure/tao-of-the-day-06-transport.yml'
+      TimeoutInMinutes: 10 # If not specified then there is no timeout.
+
+  Monitoring:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      Parameters:
+        ParamBucketName: !Ref ParamBucketName
+        ParamPipelineName: !Ref ParamPipelineName
+        ParamGraphQlApiId:
+          Fn::GetAtt: [Transport, Outputs.AppSyncApiApiId]
+        ParamSnsTopicArn: !Ref ParamSnsTopicArn
+      TemplateURL: !Sub 'https://${ParamBucketName}.s3-@@aws-region-hub@@.amazonaws.com/infrastructure/tao-of-the-day-07-monitoring.yml'
+      TimeoutInMinutes: 10 # If not specified then there is no timeout.
+
+  # Governance:
+  #   Type: AWS::CloudFormation::Stack
+  #   Properties:
+  #     Parameters:
+  #       Key: !Ref Value
+  #     TemplateURL: !Sub 'https://${ParamBucketName}.s3-@@aws-region-hub@@.amazonaws.com/infrastructure/tao-of-the-day-08-governance.yml'
+  #     TimeoutInMinutes: 10 # If not specified then there is no timeout.
+
+  # Capping:
+  #   Type: AWS::CloudFormation::Stack
+  #   Properties:
+  #     Parameters:
+  #       Key: !Ref Value
+  #     TemplateURL: !Sub 'https://${ParamBucketName}.s3-@@aws-region-hub@@.amazonaws.com/infrastructure/tao-of-the-day-09-capping.yml'
+  #     TimeoutInMinutes: 10 # If not specified then there is no timeout.
+
+Outputs:
+  QuotesTableName:
+    Value:
+      Fn::GetAtt: [Storage, Outputs.QuotesTableName]
+  WebsiteBucketName:
+    Value:
+      Fn::GetAtt: [Storage, Outputs.WebsiteBucketName]
+  AppSyncEndpoint:
+    Value:
+      Fn::GetAtt: [Transport, Outputs.AppSyncEndpoint]
+  AppSyncRegion:
+    Value:
+      Fn::GetAtt: [Transport, Outputs.AppSyncRegion]
+  AppSyncApiKey:
+    Value:
+      Fn::GetAtt: [Transport, Outputs.AppSyncApiKey]

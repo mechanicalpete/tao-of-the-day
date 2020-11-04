@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter61" },
+  "Title": { "S": "Sixty One" },
+  "Content": {
+    "S": "A great country is like low land.\nIt is the meeting ground of the universe,\nThe mother of the universe.\n\nThe female overcomes the male with stillness,\nLying low in stillness.\n\nTherefore if a great country gives way to a smaller country,\nIt will conquer the smaller country.\nAnd if a small country submits to a great country,\nIt can conquer the great country.\nTherefore those who would conquer must yield,\nAnd those who conquer do so because they yield.\n\nA great nation needs more people;\nA small country needs to serve.\nEach gets what it wants.\nIt is fitting for a great nation to yield."
+  },
+  "Type": { "S": "QUOTE" }
+}

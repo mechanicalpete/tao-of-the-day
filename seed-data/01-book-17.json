@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter17" },
+  "Title": { "S": "Seventeen" },
+  "Content": {
+    "S": "The very highest if barely known.\nThen comes that which people know and love.\nThen that which is feared,\nThen that which is despised.\n\nWho does not trust enough will not be trusted.\n\nWhen actions are performed\nWithout unnecessary speech,\nPeople say, 'We did it!'"
+  },
+  "Type": { "S": "QUOTE" }
+}

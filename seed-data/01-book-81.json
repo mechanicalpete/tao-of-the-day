@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter81" },
+  "Title": { "S": "Eighty One" },
+  "Content": {
+    "S": "Truthful words are not beautiful.\nBeautiful words are not truthful.\nGood men do not argue.\nThose who argue are not good.\nThose who know are not learned.\nThe learned do not know.\n\nThe sage never tries to store things up.\nThe more he does for others, the more he has.\nThe more he gives to others, the greater his abundance.\nThe Tao of heaven is pointed but does no harm.\nThe Tao of the sage is work without effort."
+  },
+  "Type": { "S": "QUOTE" }
+}

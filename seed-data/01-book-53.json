@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter53" },
+  "Title": { "S": "Fifty Three" },
+  "Content": {
+    "S": "If I have even just a little sense,\nI will walk on the main road and my only fear\nwill be of straying from it.\nKeeping to the main road is easy,\nBut people love to be sidetracked.\n\nWhen the court is arrayed in splendor,\nThe fields are full of weeds,\nAnd the granaries are bare.\nSome wear gorgeous clothes,\nCarry sharp swords,\nAnd indulge themselves with food and drink;\nThey have more possessions than they can use.\nThey are robber barons.\nThis is certainly not the way of Tao."
+  },
+  "Type": { "S": "QUOTE" }
+}

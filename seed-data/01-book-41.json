@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter41" },
+  "Title": { "S": "Forty One" },
+  "Content": {
+    "S": "The wise student hears of the Tao and practices it diligently.\nThe average student hears of the Tao and gives it thought now and again.\nThe foolish student hears of the Tao and laughs aloud.\nIf there were no laughter, the Tao would not be what it is.\n\nHence it is said:\nThe bright path seems dim;\nGoing forward seems like retreat;\nThe easy way seems hard;\nThe highest Virtue seems empty;\nGreat purity seems sullied;\nA wealth of Virtue seems inadequate;\nThe strength of Virtue seems frail;\nReal Virtue seems unreal;\nThe perfect square has no corners;\nGreat talents ripen late;\nThe highest notes are hard to hear;\nThe greatest form has no shape;\nThe Tao is hidden and without name.\nThe Tao alone nourishes and brings everything to fulfillment."
+  },
+  "Type": { "S": "QUOTE" }
+}

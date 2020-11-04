@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter62" },
+  "Title": { "S": "Sixty Two" },
+  "Content": {
+    "S": "Tao is source of the ten thousand things.\nIt is the treasure of the good man, and the refuge of the bad.\nSweet words can buy honor;\nGood deeds can gain respect.\nIf a man is bad, do not abandon him.\nTherefore on the day the emperor is crowned,\nOr the three officers of state installed,\nDo not send a gift of jade and a team of four horses,\nBut remain still and offer the Tao.\nWhy does everyone like the Tao so much at first?\nIsn't it because you find what you seek and are forgiven when you sin?\nTherefore this is the greatest treasure of the universe."
+  },
+  "Type": { "S": "QUOTE" }
+}

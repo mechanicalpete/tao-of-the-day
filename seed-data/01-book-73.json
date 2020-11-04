@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter73" },
+  "Title": { "S": "Seventy Three" },
+  "Content": {
+    "S": "A brave and passionate man will kill or be killed.\nA brave and calm man will always preserve life.\nOf these two which is good and which is harmful?\nSome things are not favored by heaven. Who knows why?\nEven the sage is unsure of this.\n\nThe Tao of heaven does not strive, and yet it overcomes.\nIt does not speak, and yet is answered.\nIt does not ask, yet is supplied with all its needs.\nIt seems to have no aim and yet its purpose is fulfilled.\n\nHeaven's net casts wide.\nThough its meshes are course, nothing slips through."
+  },
+  "Type": { "S": "QUOTE" }
+}

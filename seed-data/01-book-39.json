@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter39" },
+  "Title": { "S": "Thirty Nine" },
+  "Content": {
+    "S": "These things from ancient times arise from one:\nThe sky is whole and clear.\nThe earth is whole and firm.\nThe spirit is whole and strong.\nThe valley is whole and full.\nThe ten thousand things are whole and alive.\nKings and lords are whole, and the country is upright.\nAll these are in virtue of wholeness.\n\nThe clarity of the sky prevents its falling.\nThe firmness of the earth prevents its splitting.\nThe strength of the spirit prevents its being used up.\nThe fullness of the valley prevents its running dry.\nThe growth of the ten thousand things prevents their drying out.\nThe leadership of kings and lords prevents the downfall of the country.\n\nTherefore the humble is the root of the noble.\nThe low is the foundation of the high.\nPrinces and lords consider themselves \"orphaned\", \"widowed\" and \"worthless\".\nDo they not depend on being humble?\n\nToo much success is not an advantage.\nDo not tinkle like jade\nOr clatter like stone chimes."
+  },
+  "Type": { "S": "QUOTE" }
+}

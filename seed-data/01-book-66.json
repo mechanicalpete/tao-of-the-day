@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter66" },
+  "Title": { "S": "Sixty Six" },
+  "Content": {
+    "S": "Why is the sea king of a hundred streams?\nBecause it lies below them.\nTherefore it is the king of a hundred streams.\n\nIf the sage would guide the people, he must serve with humility.\nIf he would lead them, he must follow behind.\nIn this way when the sage rules, the people will not feel oppressed;\nWhen he stands before them, they will not be harmed.\nThe whole world will support him and will not tire of him.\n\nBecause he does not compete,\nHe does not meet competition."
+  },
+  "Type": { "S": "QUOTE" }
+}

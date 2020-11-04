@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter70" },
+  "Title": { "S": "Seventy" },
+  "Content": {
+    "S": "My words are easy to understand and easy to perform,\nYet no man under heaven knows them or practices them.\n\nMy words have ancient beginnings.\nMy actions are disciplined.\nBecause men do not understand, they have no knowledge of me.\n\nThose that know me are few;\nThose that abuse me are honored.\nTherefore the sage wears rough clothing and holds the jewel in his heart"
+  },
+  "Type": { "S": "QUOTE" }
+}

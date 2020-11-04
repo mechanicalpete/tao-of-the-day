@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter38" },
+  "Title": { "S": "Thirty Eight" },
+  "Content": {
+    "S": "A truly good man is not aware of his goodness,\nAnd is therefore good.\nA foolish man tries to be good,\nAnd is therefore not good.\n\nA truly good man does nothing,\nYet leaves nothing undone.\nA foolish man is always doing,\nYet much remains to be done.\n\nWhen a truly kind man does something, he leaves nothing undone.\nWhen a just man does something, he leaves a great deal to be done.\nWhen a disciplinarian does something and no one responds,\nHe rolls up his sleeves in an attempt to enforce order.\n\nTherefore when Tao is lost, there is goodness.\nWhen goodness is lost, there is kindness.\nWhen kindness is lost, there is justice.\nWhen justice is lost, there ritual.\nNow ritual is the husk of faith and loyalty, the beginning of confusion.\nKnowledge of the future is only a flowery trapping of Tao.\nIt is the beginning of folly.\n\nTherefore the truly great man dwells on what is real and not what is on the surface,\nOn the fruit and not the flower.\nTherefore accept the one and reject the other."
+  },
+  "Type": { "S": "QUOTE" }
+}

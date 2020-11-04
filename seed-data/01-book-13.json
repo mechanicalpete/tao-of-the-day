@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter13" },
+  "Title": { "S": "Thirteen" },
+  "Content": {
+    "S": "Accept disgrace willingly.\nAccept misfortune as the human condition.\n\nWhat do you mean by 'Accept disgrace willingly'?\nAccept being unimportant.\nDo not be concerned with loss or gain.\nThis is called 'accepting disgrace willingly.'\n\nWhat do you mean by 'Accept misfortune as the human condition'?\nMisfortune comes from having a body.\nWithout a body, how could there be misfortune?\n\nSurrender yourself humbly; then you can be trusted to care for all things.\nLove the world as your own self; then you can truly care for all things."
+  },
+  "Type": { "S": "QUOTE" }
+}

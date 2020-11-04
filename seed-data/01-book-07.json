@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter07" },
+  "Title": { "S": "Seven" },
+  "Content": {
+    "S": "Heaven and Earth last forever.\nWhy do heaven and Earth last forever?\nThey are unborn,\nSo ever living.\nThe sage stays behind, thus he is ahead.\nHe is detached, thus at one with all.\nThrough selfless action, he attains fulfillment."
+  },
+  "Type": { "S": "QUOTE" }
+}

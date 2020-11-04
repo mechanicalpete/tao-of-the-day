@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter25" },
+  "Title": { "S": "Twenty Five" },
+  "Content": {
+    "S": "Something mysteriously formed,\nBorn before heaven and Earth.\nIn the silence and the void,\nStanding alone and unchanging,\nEver present and in motion.\nPerhaps it is the mother of ten thousand things.\nI do not know its name\nCall it Tao.\nFor lack of a better word, I call it great.\n\nBeing great, it flows\nI flows far away.\nHaving gone far, it returns.\n\nTherefore, \"Tao is great;\nHeaven is great;\nEarth is great;\nThe king is also great.\"\nThese are the four great powers of the universe,\nAnd the king is one of them.\n\nMan follows Earth.\nEarth follows heaven.\nHeaven follows the Tao.\nTao follows what is natural."
+  },
+  "Type": { "S": "QUOTE" }
+}

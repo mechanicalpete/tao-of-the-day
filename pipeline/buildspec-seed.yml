@@ -1,0 +1,14 @@
+version: 0.2
+
+phases:
+  install:
+    # runtime-versions:
+    #   python: 3.8
+    commands:
+      - TEMPLATE_FILES=$(ls -R -d seed-data/*.json && ls -R -d seed-data/**/*.json 2> /dev/null || exit 0)
+      - |
+        for TEMPLATE_FILE in $TEMPLATE_FILES; do
+          echo "Seeding file '${TEMPLATE_FILE}'"
+          aws dynamodb put-item --table-name "${TABLE_NAME}" --item file://$TEMPLATE_FILE
+        done
+

@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter80" },
+  "Title": { "S": "Eighty" },
+  "Content": {
+    "S": "A small country has fewer people.\nThough there are machines that can work ten to a hundred times faster than man, they are not needed.\nThe people take death seriously and do not travel far.\nThough they have boats and carriages, no one uses them.\nThough they have armor and weapons, no one displays them.\nMen return to the knotting of rope in place of writing.\nTheir food is plain and good, their clothes fine but simple, their homes secure;\nThey are happy in their ways.\nThough they live within sight of their neighbors,\nAnd crowing cocks and barking dogs are heard across the way,\nYet they leave each other in peace while they grow old and die."
+  },
+  "Type": { "S": "QUOTE" }
+}

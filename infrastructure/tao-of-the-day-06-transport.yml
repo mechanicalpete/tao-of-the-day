@@ -1,0 +1,157 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  ParamBucketName:
+    Type: String
+  ParamPipelineName:
+    Type: String
+  ParamWebsiteBucketName:
+    Type: String
+  ParamWebsiteBucketArn:
+    Type: String
+  ParamWebsiteBucketRegionalDomainName:
+    Type: String
+  ParamLogsBucketName:
+    Type: String
+  ParamLogsBucketArn:
+    Type: String
+  ParamLogsBucketRegionalDomainName:
+    Type: String
+  ParamDynamoDbQuotesTableName:
+    Type: String
+
+Resources:
+
+  WebsiteBucketPolicy:
+    Type: "AWS::S3::BucketPolicy"
+    Properties:
+      Bucket: !Ref ParamWebsiteBucketName
+      PolicyDocument:
+        Statement:
+          - Sid: 'Granting least privilege read access to cloudfront user'
+            Effect: 'Allow'
+            Action: ['s3:GetObject']
+            Resource: [!Sub '${ParamWebsiteBucketArn}/*']
+            Principal:
+              AWS: !Sub 'arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity ${OriginAccessIdentity}'
+          - Sid: 'Granting least privilege read access to cloudfront user'
+            Effect: 'Allow'
+            Action: ['s3:PutObject*']
+            Resource: [!Sub '${ParamWebsiteBucketArn}/*']
+            Principal:
+              AWS: !Ref AWS::AccountId
+
+  LogsBucketPolicy:
+    Type: 'AWS::S3::BucketPolicy'
+    Properties:
+      Bucket: !Ref ParamLogsBucketName
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: BucketPolicy
+            Effect: Allow
+            Principal:
+              Service: s3.amazonaws.com
+            Action: ['s3:PutObject']
+            Resource:
+              - !Sub '${ParamLogsBucketArn}/*'
+            Condition:
+              ArnLike:
+                'aws:SourceArn': 'arn:aws:s3:::*'
+              StringEquals:
+                'aws:SourceAccount': !Ref AWS::AccountId
+                's3:x-amz-acl': bucket-owner-full-control
+          - Sid: DenyIncorrectEncryptionHeader
+            Effect: Deny
+            Principal: '*'
+            Action: s3:PutObject
+            Resource: !Sub '${ParamLogsBucketArn}/*'
+            Condition:
+              StringNotEquals:
+                's3:x-amz-server-side-encryption':  ['AES256', 'aws:kms']
+          - Sid: DenyUnencryptedObjectUploads
+            Effect: Deny
+            Principal: "*"
+            Action: s3:PutObject
+            Resource: !Sub '${ParamLogsBucketArn}/*'
+            Condition:
+              "Null":
+                s3:x-amz-server-side-encryption: true
+
+  OriginAccessIdentity:
+    Type: 'AWS::CloudFront::CloudFrontOriginAccessIdentity'
+    Properties:
+      CloudFrontOriginAccessIdentityConfig:
+        Comment: 'Origin access identity for the CloudFront distribution'
+
+  CloudFront:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Comment: Hosts the website for @@camel-case-name@@
+        DefaultCacheBehavior:
+          AllowedMethods:
+            - HEAD
+            - GET
+            - OPTIONS
+          CachedMethods:
+            - HEAD
+            - GET
+          Compress: true
+          DefaultTTL: 0
+          ForwardedValues:
+            Cookies:
+              Forward: all
+            QueryString: true
+          MaxTTL: 0
+          MinTTL: 0
+          TargetOriginId: !Ref ParamWebsiteBucketName
+          ViewerProtocolPolicy: allow-all
+        DefaultRootObject: index.html
+        Enabled: true
+        HttpVersion: http2
+        IPV6Enabled: false
+        Logging:
+          Bucket: !Ref ParamLogsBucketRegionalDomainName
+          IncludeCookies: true
+          Prefix: 'cloudfront-logs'
+        Origins:
+          - DomainName: !Ref ParamWebsiteBucketRegionalDomainName
+            Id: !Ref ParamWebsiteBucketName
+            S3OriginConfig:
+              OriginAccessIdentity: !Sub 'origin-access-identity/cloudfront/${OriginAccessIdentity}'
+        PriceClass: PriceClass_All
+        # WebACLId: !Ref WafWebAcl
+
+  AppSync:
+    # DependsOn: Security
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      Parameters:
+        ParamBucketName: !Ref ParamBucketName
+        ParamAppSyncApiName : !Ref ParamPipelineName
+        ParamDynamoDbTableName: !Ref ParamDynamoDbQuotesTableName
+      TemplateURL: !Sub 'https://${ParamBucketName}.s3-@@aws-region-hub@@.amazonaws.com/infrastructure/tao-of-the-day-06-transport-appsync.yml'
+      TimeoutInMinutes: 60 # If not specified then there is no timeout.
+
+Outputs:
+  OriginAccessIdentity:
+    Value: !Ref OriginAccessIdentity
+  OriginAccessIdentityS3CanonicalUserId:
+    Value: !GetAtt OriginAccessIdentity.S3CanonicalUserId
+  CloudFrontDistributionId:
+    Value: !Ref CloudFront
+  CloudFrontDomainName:
+    Value: !GetAtt CloudFront.DomainName
+  AppSyncApiApiId:
+    Value:
+      Fn::GetAtt: [AppSync, Outputs.AppSyncApiApiId]
+  AppSyncEndpoint:
+    Value:
+      Fn::GetAtt: [AppSync, Outputs.AppSyncApiGraphQLUrl]
+  AppSyncRegion:
+    Value:
+      Fn::GetAtt: [AppSync, Outputs.AppSyncApiRegion]
+  AppSyncApiKey:
+    Value:
+      Fn::GetAtt: [AppSync, Outputs.AppSyncApiKeyApiKey]

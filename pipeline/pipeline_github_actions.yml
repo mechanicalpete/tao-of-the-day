@@ -1,0 +1,90 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  ParamCodeBuildProjectName:
+    Type: String
+    MinLength: 1
+    MaxLength: 64
+    AllowedPattern: '[A-Za-z0-9\-_ ]+$'
+  ParamCodeBuildBuildSpec:
+    Type: String
+  ParamGitHubOwner:
+    Type: String
+  ParamGitHubRepo:
+    Type: String
+
+Resources:
+
+  CodeBuildRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: ["sts:AssumeRole"]
+            Effect: Allow
+            Principal:
+              Service: [codebuild.amazonaws.com]
+        Version: "2012-10-17"
+      Path: /
+      Policies:
+        - PolicyName: CodeBuildAccess
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Sid: "GrantPermissionsForCloudWatchLogs"
+                Effect: Allow
+                Action:
+                  - "logs:CreateLogGroup"
+                  - "logs:CreateLogStream"
+                  - "logs:PutLogEvents"
+                Resource:
+                  - !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/${ParamCodeBuildProjectName}*"
+              - Sid: "GrantPermissionsForCodeBuildReports"
+                Effect: Allow
+                Action:
+                  - "codebuild:BatchPutTestCases"
+                  - "codebuild:CreateReport"
+                  - "codebuild:CreateReportGroup"
+                  - "codebuild:UpdateReport"
+                Resource:
+                  - "*"
+
+  CodeBuildProjectCredential:
+    Type: AWS::CodeBuild::SourceCredential
+    Properties:
+      AuthType: PERSONAL_ACCESS_TOKEN # BASIC_AUTH | OAUTH | PERSONAL_ACCESS_TOKEN
+      ServerType: GITHUB # BITBUCKET | GITHUB | GITHUB_ENTERPRISE
+      Token: '{{resolve:secretsmanager:github/patoken/@@kebab-case-name@@}}'
+
+  CodeBuildProject:
+    Type: "AWS::CodeBuild::Project"
+    Properties:
+      Artifacts:
+        Type: NO_ARTIFACTS
+      Environment:
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: aws/codebuild/standard:4.0
+        PrivilegedMode: true
+        Type: LINUX_CONTAINER
+      Name: !Ref ParamCodeBuildProjectName
+      QueuedTimeoutInMinutes: 10
+      ServiceRole: !GetAtt CodeBuildRole.Arn
+      Source:
+        BuildSpec: !Ref ParamCodeBuildBuildSpec
+        Type: GITHUB
+        Location: !Sub 'https://github.com/${ParamGitHubOwner}/${ParamGitHubRepo}.git'
+        ReportBuildStatus: true
+        Auth:
+          Type: OAUTH
+          Resource: !Ref CodeBuildProjectCredential
+      TimeoutInMinutes: 60
+      Triggers:
+        FilterGroups:
+          - - Type: EVENT
+              Pattern: PULL_REQUEST_UPDATED, PULL_REQUEST_CREATED
+        Webhook: true
+      # Cache:
+      #   Type: LOCAL
+      #   Modes:
+      #     - LOCAL_CUSTOM_CACHE
+      #     - LOCAL_SOURCE_CACHE

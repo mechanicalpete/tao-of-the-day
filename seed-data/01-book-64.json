@@ -1,0 +1,9 @@
+{
+  "PK": { "S": "BOOK#TaoTeChing" },
+  "SK": { "S": "QUOTE#TaoTeChing#Chapter64" },
+  "Title": { "S": "Sixty Four" },
+  "Content": {
+    "S": "Peace is easily maintained;\nTrouble is easily overcome before it starts.\nThe brittle is easily shattered;\nThe small is easily scattered.\n\nDeal with it before it happens.\nSet things in order before there is confusion.\n\nA tree as great as a man's embrace springs up from a small shoot;\nA terrace nine stories high begins with a pile of earth;\nA journey of a thousand miles starts under one's feet.\n\nHe who acts defeats his own purpose;\nHe who grasps loses.\nThe sage does not act, and so is not defeated.\nHe does not grasp and therefore does not lose.\n\nPeople usually fail when they are on the verge of success.\nSo give as much care to the end as to the beginning;\nThen there will be no failure.\n\nTherefore the sage seeks freedom from desire.\nHe does not collect precious things.\nHe learns not to hold on to ideas.\nHe brings men back to what they have lost.\nHe help the ten thousand things find their own nature,\nBut refrains from action."
+  },
+  "Type": { "S": "QUOTE" }
+}
