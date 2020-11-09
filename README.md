@@ -48,8 +48,13 @@ Follow these steps to deploy into your own AWS account.
 ## Tear Down
 
 1. Empty all the S3 buckets (remember, you cannot delete a bucket that contains objects).
-2. Delete the stacks in this order:
-   1. TODO:
+2. Delete the deployed CloudFormation stacks in this order:
+   1. @@camel-case-name@@-dev
+   2. @@camel-case-name@@Infrastructure
+   3. @@camel-case-name@@GitHubActions
+   4. @@camel-case-name@@RegionalBucket in `@@aws-region-hub@@` and `us-east-1`
+   5. @@camel-case-name@@Notifications
+   6. @@camel-case-name@@Inception
 3. Remove your Secrets Manager secrets:
 
    ```bash
